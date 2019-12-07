@@ -5,10 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d307dcc64d394618a6c8ea778b6fd758" Name="Diagram1">
-        <EntityTypeShape EntityType="BookItModel.Edificio" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookItModel.Risorsa" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookItModel.Sala" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="BookItModel.FK_Sala_Edificio" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookItModel.Edificio" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="BookItModel.Prenotazione" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="BookItModel.Risorsa" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="BookItModel.Sala" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="BookItModel.FK_Sala_Edificio" />
+        <AssociationConnector Association="BookItModel.FK_Prenotazione_Risorsa" />
+        <AssociationConnector Association="BookItModel.FK_Prenotazione_Sala" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

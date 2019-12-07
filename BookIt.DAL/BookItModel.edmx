@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Edificio">
           <Key>
             <PropertyRef Name="ID_Edificio" />
@@ -13,6 +13,17 @@
           <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Indirizzo" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Stato" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Prenotazione">
+          <Key>
+            <PropertyRef Name="ID_Prenotazione" />
+          </Key>
+          <Property Name="ID_Prenotazione" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Risorsa" Type="int" Nullable="false" />
+          <Property Name="ID_Sala" Type="int" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DataInizioPrenotazione" Type="datetime" Nullable="false" />
+          <Property Name="DataFinePrenotazione" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Risorsa">
           <Key>
@@ -35,6 +46,30 @@
           <Property Name="NumeroPostiDisponibili" Type="int" Nullable="false" />
           <Property Name="Stato" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Prenotazione_Risorsa">
+          <End Role="Risorsa" Type="Self.Risorsa" Multiplicity="1" />
+          <End Role="Prenotazione" Type="Self.Prenotazione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorsa">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Prenotazione">
+              <PropertyRef Name="ID_Risorsa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prenotazione_Sala">
+          <End Role="Sala" Type="Self.Sala" Multiplicity="1" />
+          <End Role="Prenotazione" Type="Self.Prenotazione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sala">
+              <PropertyRef Name="ID_Sala" />
+            </Principal>
+            <Dependent Role="Prenotazione">
+              <PropertyRef Name="ID_Sala" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sala_Edificio">
           <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
           <End Role="Sala" Type="Self.Sala" Multiplicity="*" />
@@ -49,38 +84,78 @@
         </Association>
         <EntityContainer Name="BookItModelStoreContainer">
           <EntitySet Name="Edificio" EntityType="Self.Edificio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prenotazione" EntityType="Self.Prenotazione" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Risorsa" EntityType="Self.Risorsa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sala" EntityType="Self.Sala" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Prenotazione_Risorsa" Association="Self.FK_Prenotazione_Risorsa">
+            <End Role="Risorsa" EntitySet="Risorsa" />
+            <End Role="Prenotazione" EntitySet="Prenotazione" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prenotazione_Sala" Association="Self.FK_Prenotazione_Sala">
+            <End Role="Sala" EntitySet="Sala" />
+            <End Role="Prenotazione" EntitySet="Prenotazione" />
+          </AssociationSet>
           <AssociationSet Name="FK_Sala_Edificio" Association="Self.FK_Sala_Edificio">
             <End Role="Edificio" EntitySet="Edificio" />
             <End Role="Sala" EntitySet="Sala" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookItModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BookItEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Edificios" EntityType="BookItModel.Edificio" />
+          <EntitySet Name="Prenotaziones" EntityType="BookItModel.Prenotazione" />
+          <EntitySet Name="Risorsas" EntityType="BookItModel.Risorsa" />
+          <EntitySet Name="Salas" EntityType="BookItModel.Sala" />
+          <AssociationSet Name="FK_Sala_Edificio" Association="BookItModel.FK_Sala_Edificio">
+            <End Role="Edificio" EntitySet="Edificios" />
+            <End Role="Sala" EntitySet="Salas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prenotazione_Risorsa" Association="BookItModel.FK_Prenotazione_Risorsa">
+            <End Role="Risorsa" EntitySet="Risorsas" />
+            <End Role="Prenotazione" EntitySet="Prenotaziones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prenotazione_Sala" Association="BookItModel.FK_Prenotazione_Sala">
+            <End Role="Sala" EntitySet="Salas" />
+            <End Role="Prenotazione" EntitySet="Prenotaziones" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Edificio">
           <Key>
             <PropertyRef Name="ID_Edificio" />
           </Key>
           <Property Name="ID_Edificio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Indirizzo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Stato" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Sala" Relationship="Self.FK_Sala_Edificio" FromRole="Edificio" ToRole="Sala" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Indirizzo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Stato" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Salas" Relationship="BookItModel.FK_Sala_Edificio" FromRole="Edificio" ToRole="Sala" />
+        </EntityType>
+        <EntityType Name="Prenotazione">
+          <Key>
+            <PropertyRef Name="ID_Prenotazione" />
+          </Key>
+          <Property Name="ID_Prenotazione" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Risorsa" Type="Int32" Nullable="false" />
+          <Property Name="ID_Sala" Type="Int32" Nullable="false" />
+          <Property Name="Descrizione" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DataInizioPrenotazione" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataFinePrenotazione" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Risorsa" Relationship="BookItModel.FK_Prenotazione_Risorsa" FromRole="Prenotazione" ToRole="Risorsa" />
+          <NavigationProperty Name="Sala" Relationship="BookItModel.FK_Prenotazione_Sala" FromRole="Prenotazione" ToRole="Sala" />
         </EntityType>
         <EntityType Name="Risorsa">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Cognome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cognome" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="FlagPrenotazione" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Prenotaziones" Relationship="BookItModel.FK_Prenotazione_Risorsa" FromRole="Risorsa" ToRole="Prenotazione" />
         </EntityType>
         <EntityType Name="Sala">
           <Key>
@@ -88,14 +163,15 @@
           </Key>
           <Property Name="ID_Sala" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_Edificio" Type="Int32" Nullable="false" />
-          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="NumeroPostiDisponibili" Type="Int32" Nullable="false" />
-          <Property Name="Stato" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Edificio" Relationship="Self.FK_Sala_Edificio" FromRole="Sala" ToRole="Edificio" />
+          <Property Name="Stato" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Edificio" Relationship="BookItModel.FK_Sala_Edificio" FromRole="Sala" ToRole="Edificio" />
+          <NavigationProperty Name="Prenotaziones" Relationship="BookItModel.FK_Prenotazione_Sala" FromRole="Sala" ToRole="Prenotazione" />
         </EntityType>
         <Association Name="FK_Sala_Edificio">
-          <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
-          <End Role="Sala" Type="Self.Sala" Multiplicity="*" />
+          <End Type="BookItModel.Edificio" Role="Edificio" Multiplicity="1" />
+          <End Type="BookItModel.Sala" Role="Sala" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Edificio">
               <PropertyRef Name="ID_Edificio" />
@@ -105,51 +181,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BookItEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Edificio" EntityType="Self.Edificio" />
-          <EntitySet Name="Risorsa" EntityType="Self.Risorsa" />
-          <EntitySet Name="Sala" EntityType="Self.Sala" />
-          <AssociationSet Name="FK_Sala_Edificio" Association="Self.FK_Sala_Edificio">
-            <End Role="Edificio" EntitySet="Edificio" />
-            <End Role="Sala" EntitySet="Sala" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK_Prenotazione_Risorsa">
+          <End Type="BookItModel.Risorsa" Role="Risorsa" Multiplicity="1" />
+          <End Type="BookItModel.Prenotazione" Role="Prenotazione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risorsa">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Prenotazione">
+              <PropertyRef Name="ID_Risorsa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prenotazione_Sala">
+          <End Type="BookItModel.Sala" Role="Sala" Multiplicity="1" />
+          <End Type="BookItModel.Prenotazione" Role="Prenotazione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sala">
+              <PropertyRef Name="ID_Sala" />
+            </Principal>
+            <Dependent Role="Prenotazione">
+              <PropertyRef Name="ID_Sala" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BookItModelStoreContainer" CdmEntityContainer="BookItEntities">
-          <EntitySetMapping Name="Edificio">
+          <EntitySetMapping Name="Edificios">
             <EntityTypeMapping TypeName="BookItModel.Edificio">
               <MappingFragment StoreEntitySet="Edificio">
-                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="Indirizzo" ColumnName="Indirizzo" />
                 <ScalarProperty Name="Stato" ColumnName="Stato" />
+                <ScalarProperty Name="Indirizzo" ColumnName="Indirizzo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Risorsa">
+          <EntitySetMapping Name="Prenotaziones">
+            <EntityTypeMapping TypeName="BookItModel.Prenotazione">
+              <MappingFragment StoreEntitySet="Prenotazione">
+                <ScalarProperty Name="DataFinePrenotazione" ColumnName="DataFinePrenotazione" />
+                <ScalarProperty Name="DataInizioPrenotazione" ColumnName="DataInizioPrenotazione" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="ID_Sala" ColumnName="ID_Sala" />
+                <ScalarProperty Name="ID_Risorsa" ColumnName="ID_Risorsa" />
+                <ScalarProperty Name="ID_Prenotazione" ColumnName="ID_Prenotazione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risorsas">
             <EntityTypeMapping TypeName="BookItModel.Risorsa">
               <MappingFragment StoreEntitySet="Risorsa">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FlagPrenotazione" ColumnName="FlagPrenotazione" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Sala">
+          <EntitySetMapping Name="Salas">
             <EntityTypeMapping TypeName="BookItModel.Sala">
               <MappingFragment StoreEntitySet="Sala">
-                <ScalarProperty Name="ID_Sala" ColumnName="ID_Sala" />
-                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="NumeroPostiDisponibili" ColumnName="NumeroPostiDisponibili" />
                 <ScalarProperty Name="Stato" ColumnName="Stato" />
+                <ScalarProperty Name="NumeroPostiDisponibili" ColumnName="NumeroPostiDisponibili" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
+                <ScalarProperty Name="ID_Sala" ColumnName="ID_Sala" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -167,7 +270,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

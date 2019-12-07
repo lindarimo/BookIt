@@ -25,8 +25,9 @@ namespace BookIt.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Edificio> Edificio { get; set; }
-        public virtual DbSet<Risorsa> Risorsa { get; set; }
-        public virtual DbSet<Sala> Sala { get; set; }
+        public virtual DbSet<Edificio> Edificios { get; set; }
+        public virtual DbSet<Prenotazione> Prenotaziones { get; set; }
+        public virtual DbSet<Risorsa> Risorsas { get; set; }
+        public virtual DbSet<Sala> Salas { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace BookIt.DAL
     
     public partial class Sala
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Sala()
+        {
+            this.Prenotaziones = new HashSet<Prenotazione>();
+        }
+    
         public int ID_Sala { get; set; }
         public int ID_Edificio { get; set; }
         public string Nome { get; set; }
@@ -21,5 +27,7 @@ namespace BookIt.DAL
         public string Stato { get; set; }
     
         public virtual Edificio Edificio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Prenotazione> Prenotaziones { get; set; }
     }
 }

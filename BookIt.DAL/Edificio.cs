@@ -17,7 +17,7 @@ namespace BookIt.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Edificio()
         {
-            this.Sala = new HashSet<Sala>();
+            this.Salas = new HashSet<Sala>();
         }
     
         public int ID_Edificio { get; set; }
@@ -26,6 +26,6 @@ namespace BookIt.DAL
         public string Stato { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sala> Sala { get; set; }
+        public virtual ICollection<Sala> Salas { get; set; }
     }
 }
