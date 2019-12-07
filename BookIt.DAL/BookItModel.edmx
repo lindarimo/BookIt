@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookItModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Edificio">
+          <Key>
+            <PropertyRef Name="ID_Edificio" />
+          </Key>
+          <Property Name="ID_Edificio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Indirizzo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Stato" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Risorsa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Cognome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FlagPrenotazione" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sala">
+          <Key>
+            <PropertyRef Name="ID_Sala" />
+          </Key>
+          <Property Name="ID_Sala" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Edificio" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="NumeroPostiDisponibili" Type="int" Nullable="false" />
+          <Property Name="Stato" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Sala_Edificio">
+          <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
+          <End Role="Sala" Type="Self.Sala" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edificio">
+              <PropertyRef Name="ID_Edificio" />
+            </Principal>
+            <Dependent Role="Sala">
+              <PropertyRef Name="ID_Edificio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookItModelStoreContainer">
+          <EntitySet Name="Edificio" EntityType="Self.Edificio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Risorsa" EntityType="Self.Risorsa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sala" EntityType="Self.Sala" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Sala_Edificio" Association="Self.FK_Sala_Edificio">
+            <End Role="Edificio" EntitySet="Edificio" />
+            <End Role="Sala" EntitySet="Sala" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookItModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Edificio">
+          <Key>
+            <PropertyRef Name="ID_Edificio" />
+          </Key>
+          <Property Name="ID_Edificio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Indirizzo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Stato" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Sala" Relationship="Self.FK_Sala_Edificio" FromRole="Edificio" ToRole="Sala" />
+        </EntityType>
+        <EntityType Name="Risorsa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Cognome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FlagPrenotazione" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sala">
+          <Key>
+            <PropertyRef Name="ID_Sala" />
+          </Key>
+          <Property Name="ID_Sala" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Edificio" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumeroPostiDisponibili" Type="Int32" Nullable="false" />
+          <Property Name="Stato" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Edificio" Relationship="Self.FK_Sala_Edificio" FromRole="Sala" ToRole="Edificio" />
+        </EntityType>
+        <Association Name="FK_Sala_Edificio">
+          <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
+          <End Role="Sala" Type="Self.Sala" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edificio">
+              <PropertyRef Name="ID_Edificio" />
+            </Principal>
+            <Dependent Role="Sala">
+              <PropertyRef Name="ID_Edificio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookItEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Edificio" EntityType="Self.Edificio" />
+          <EntitySet Name="Risorsa" EntityType="Self.Risorsa" />
+          <EntitySet Name="Sala" EntityType="Self.Sala" />
+          <AssociationSet Name="FK_Sala_Edificio" Association="Self.FK_Sala_Edificio">
+            <End Role="Edificio" EntitySet="Edificio" />
+            <End Role="Sala" EntitySet="Sala" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookItModelStoreContainer" CdmEntityContainer="BookItEntities">
+          <EntitySetMapping Name="Edificio">
+            <EntityTypeMapping TypeName="BookItModel.Edificio">
+              <MappingFragment StoreEntitySet="Edificio">
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Indirizzo" ColumnName="Indirizzo" />
+                <ScalarProperty Name="Stato" ColumnName="Stato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risorsa">
+            <EntityTypeMapping TypeName="BookItModel.Risorsa">
+              <MappingFragment StoreEntitySet="Risorsa">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FlagPrenotazione" ColumnName="FlagPrenotazione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sala">
+            <EntityTypeMapping TypeName="BookItModel.Sala">
+              <MappingFragment StoreEntitySet="Sala">
+                <ScalarProperty Name="ID_Sala" ColumnName="ID_Sala" />
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="NumeroPostiDisponibili" ColumnName="NumeroPostiDisponibili" />
+                <ScalarProperty Name="Stato" ColumnName="Stato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
