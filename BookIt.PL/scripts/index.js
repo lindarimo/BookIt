@@ -18,6 +18,12 @@ var Sala = /** @class */ (function () {
     return Sala;
 }());
 exports.Sala = Sala;
+var Prenotazione = /** @class */ (function () {
+    function Prenotazione() {
+    }
+    return Prenotazione;
+}());
+exports.Prenotazione = Prenotazione;
 //#region Variables
 var webApiUri = 'http://localhost:60398/api';
 //#endregion
@@ -42,6 +48,13 @@ function getAllRisorse() {
     })
         .fail(function (jqXHR, textStatus, err) {
         alert('Errore durante l estrazione delle sale!');
+    });
+    $.getJSON(webApiUri + '/User/GetAllPrenotazioni')
+        .done(function (prenotazioni) {
+        console.log(prenotazioni);
+    })
+        .fail(function (jqXHR, textStatus, err) {
+        alert('Errore durante l estrazione delle prenotazioni!');
     });
 }
 $(document).ready(function () {

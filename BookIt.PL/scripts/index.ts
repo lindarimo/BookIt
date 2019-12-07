@@ -19,6 +19,14 @@ export class Sala {
     public NumeroPostiDisponibili: number;
     public Stato: string;
 }
+export class Prenotazione {
+    public ID_Prenotazione: number;
+    public ID_Risorsa: number;
+    public ID_Sala: number;
+    public Descrizione: string;
+    public DataInizioPrenotazione: number;
+    public DataFinePrenotazione: string;
+}
 
 //#region Variables
 const webApiUri: string = 'http://localhost:60398/api';
@@ -50,6 +58,15 @@ function getAllRisorse() {
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle sale!');
+        }
+        );
+    $.getJSON(webApiUri + '/User/GetAllPrenotazioni')
+        .done((prenotazioni: Prenotazione[]) => {
+            console.log(prenotazioni);
+
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alert('Errore durante l estrazione delle prenotazioni!');
         }
         );
 }
