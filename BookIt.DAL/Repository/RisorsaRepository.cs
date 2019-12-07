@@ -11,11 +11,11 @@ namespace BookIt.DAL.Repository
     {
         public IEnumerable<Risorsa> GetAll()
         {
-            return ((BookItEntities)Context).Risorsa.ToList();
+            return ((BookItEntities)Context).Risorsas.ToList();
         }
         public Risorsa GetById(int id)
         {
-            return ((BookItEntities)Context).Risorsa.SingleOrDefault(i => i.ID == id);
+            return ((BookItEntities)Context).Risorsas.SingleOrDefault(i => i.ID == id);
         }
 
         // Shadowed by base class
@@ -25,13 +25,13 @@ namespace BookIt.DAL.Repository
             {
                 throw new ArgumentNullException("item");
             }
-            ((BookItEntities)Context).Risorsa.Add(item);
+            ((BookItEntities)Context).Risorsas.Add(item);
             return item;
         }
 
         public void Delete(Risorsa item)
         {
-            ((BookItEntities)Context).Risorsa.Remove(item);
+            ((BookItEntities)Context).Risorsas.Remove(item);
         }
     
     }

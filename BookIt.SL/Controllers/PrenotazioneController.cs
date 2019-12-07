@@ -1,4 +1,6 @@
-﻿using BookIt.SL.Models;
+﻿using BookIt.BL.Manager;
+using BookIt.DAL;
+using BookIt.SL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,23 +25,23 @@ namespace BookIt.SL.Controllers
             List<PrenotazioneVM> result = new List<PrenotazioneVM>();
             for (int i = 0; i < prenotazioni.Count(); i++)
             {
-                result.Add(new PrenotazioneVM() { ID_Sala = sale[i].ID_Sala, ID_Edificio = sale[i].ID_Edificio, Nome = sale[i].Nome, NumeroPostiDisponibili = sale[i].NumeroPostiDisponibili, Stato = sale[i].Stato });
+                result.Add(new PrenotazioneVM() { ID_Prenotazione = prenotazioni[i].ID_Prenotazione, ID_Risorsa = prenotazioni[i].ID_Risorsa, ID_Sala = prenotazioni[i].ID_Sala, Descrizione = prenotazioni[i].Descrizione, DataInizioPrenotazione = prenotazioni[i].DataInizioPrenotazione, DataFinePrenotazione = prenotazioni[i].DataFinePrenotazione });
             }
             return result;
         }
 
         [HttpGet]
-        [Route("api/User/GetSala")]
-        public IHttpActionResult GetSala(int id)
+        [Route("api/User/GetPrenotazione")]
+        public IHttpActionResult GetPrenotazione(int id)
         {
-            SalaManager mng = new SalaManager();
-            Sala sala = mng.GetSalaById(id);
-            if (sala == null)
+            PrenotazioneManager mng = new PrenotazioneManager();
+            Prenotazione prenotazione = mng.GetPrenotazioneById(id);
+            if (prenotazione == null)
             {
                 return NotFound();
             }
             // TODO: use Mappers!
-            return Ok(new SalaVM() { ID_Sala = sala.ID_Sala, ID_Edificio = sala.ID_Edificio, Nome = sala.Nome, NumeroPostiDisponibili = sala.NumeroPostiDisponibili, Stato = sala.Stato });
+            return Ok(new PrenotazioneVM() { ID_Prenotazione = prenotazione.ID_Prenotazione, ID_Risorsa = prenotazione.ID_Risorsa, ID_Sala = prenotazione.ID_Sala, Descrizione = prenotazione.Descrizione, DataInizioPrenotazione = prenotazione.DataInizioPrenotazione, DataFinePrenotazione = prenotazione.DataFinePrenotazione });
         }
 
         /*[HttpPost]

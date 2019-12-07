@@ -10,11 +10,11 @@ namespace BookIt.DAL.Repository
     {
         public IEnumerable<Sala> GetAll()
         {
-            return ((BookItEntities)Context).Sala.ToList();
+            return ((BookItEntities)Context).Salas.ToList();
         }
         public Sala GetById(int id)
         {
-            return ((BookItEntities)Context).Sala.SingleOrDefault(i => i.ID_Sala == id);
+            return ((BookItEntities)Context).Salas.SingleOrDefault(i => i.ID_Sala == id);
         }
 
         // Shadowed by base class
@@ -24,13 +24,13 @@ namespace BookIt.DAL.Repository
             {
                 throw new ArgumentNullException("item");
             }
-            ((BookItEntities)Context).Sala.Add(item);
+            ((BookItEntities)Context).Salas.Add(item);
             return item;
         }
 
         public void Delete(Sala item)
         {
-            ((BookItEntities)Context).Sala.Remove(item);
+            ((BookItEntities)Context).Salas.Remove(item);
         }
 
     }

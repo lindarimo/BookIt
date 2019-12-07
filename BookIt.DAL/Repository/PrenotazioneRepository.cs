@@ -10,27 +10,27 @@ namespace BookIt.DAL.Repository
     {
         public IEnumerable<Prenotazione> GetAll()
         {
-            return ((BookItEntities)Context).Prenotazione.ToList();
+            return ((BookItEntities)Context).Prenotaziones.ToList();
         }
-        public Sala GetById(int id)
+        public Prenotazione GetById(int id)
         {
-            return ((BookItEntities)Context).Prenotazione.SingleOrDefault(i => i.ID_Prenotazione == id);
+            return ((BookItEntities)Context).Prenotaziones.SingleOrDefault(i => i.ID_Prenotazione == id);
         }
 
         // Shadowed by base class
-        public Sala Add(Prenotazione item)
+        public Prenotazione Add(Prenotazione item)
         {
             if (item == null)
             {
                 throw new ArgumentNullException("item");
             }
-            ((BookItEntities)Context).Prenotazione.Add(item);
+            ((BookItEntities)Context).Prenotaziones.Add(item);
             return item;
         }
 
-        public void Delete(Sala item)
+        public void Delete(Prenotazione item)
         {
-            ((BookItEntities)Context).Prenotazione.Remove(item);
+            ((BookItEntities)Context).Prenotaziones.Remove(item);
         }
 
     }
