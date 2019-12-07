@@ -42,7 +42,7 @@ function getAllRisorse() {
             alert('Errore durante l estrazione delle risorse!');
         }
         );
-    $.getJSON(webApiUri + '/User/GetAllEdifici')
+    $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done((edifici: Edificio[]) => {
             console.log(edifici);
 
@@ -51,7 +51,7 @@ function getAllRisorse() {
             alert('Errore durante l estrazione degli edifici!');
         }
         );
-    $.getJSON(webApiUri + '/User/GetAllSale')
+    $.getJSON(webApiUri + '/Sala/GetAllSale')
         .done((sale: Sala[]) => {
             console.log(sale);
 
@@ -60,7 +60,7 @@ function getAllRisorse() {
             alert('Errore durante l estrazione delle sale!');
         }
         );
-    $.getJSON(webApiUri + '/User/GetAllPrenotazioni')
+    $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
         .done((prenotazioni: Prenotazione[]) => {
             console.log(prenotazioni);
 
@@ -70,7 +70,19 @@ function getAllRisorse() {
         }
         );
 }
-
+function creaRisorsa(): void {
+    var p = {Cognome: "Bianchi",Email: "linda.rimoldi@reti.it",FlagPrenotazione: true,ID: 6,Nome: "Linda",Username: "lalalalala"};
+    $.ajax({
+        type: "POST",
+        url: webApiUri + '/User/PostUser',
+        contentType: 'application/json',
+        data: JSON.stringify(p),
+    }).done(function (data) {
+        console.log(JSON.stringify(data));
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert("An error occurred while creating UserTitle");
+    });
+}
 
 $(document).ready(function () {
     var p = new Risorsa();

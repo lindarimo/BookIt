@@ -15,7 +15,7 @@ namespace BookIt.SL.Controllers
     public class SalaController : ApiController
     {
         [HttpGet]
-        [Route("api/User/GetAllSale")]
+        [Route("api/Sala/GetAllSale")]
 
         public IEnumerable<SalaVM> GetAllSale()
         {
@@ -31,7 +31,7 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpGet]
-        [Route("api/User/GetSala")]
+        [Route("api/Sala/GetSala")]
         public IHttpActionResult GetSala(int id)
         {
             SalaManager mng = new SalaManager();

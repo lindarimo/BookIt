@@ -15,7 +15,7 @@ namespace BookIt.SL.Controllers
     public class PrenotazioneController : ApiController
     {
         [HttpGet]
-        [Route("api/User/GetAllPrenotazioni")]
+        [Route("api/Prenotazione/GetAllPrenotazioni")]
 
         public IEnumerable<PrenotazioneVM> GetAllPrenotazioni()
         {
@@ -31,7 +31,7 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpGet]
-        [Route("api/User/GetPrenotazione")]
+        [Route("api/Prenotazione/GetPrenotazione")]
         public IHttpActionResult GetPrenotazione(int id)
         {
             PrenotazioneManager mng = new PrenotazioneManager();

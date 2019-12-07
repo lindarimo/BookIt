@@ -45,6 +45,8 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpPost]
+        [Route("api/User/PostUser")]
+
         public IHttpActionResult PostUser(RisorsaVM risorsa)
         {
             RisorsaManager mng = new RisorsaManager();
@@ -53,17 +55,6 @@ namespace BookIt.SL.Controllers
             mng.CreateUser(nuovaRisorsa);
             return Ok(risorsa);
         }
-
-        /*[HttpPut]
-        public IHttpActionResult PutUser(int id, [FromBody] UserVM item)
-        {
-            UsersManager mng = new UsersManager();
-            // TODO: use Mappers!
-            User user = new User() { Id = item.Id, UserTitleId = item.UserTitleId, Username = item.Username, Surname = item.Surname, Name = item.Name };
-            mng.UpdateUser(id, user);
-
-            return Ok(id);
-        }*/
 
         [HttpDelete]
         public IHttpActionResult DeleteRisorsa([FromUri] int id)

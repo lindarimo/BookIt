@@ -14,7 +14,7 @@ namespace BookIt.SL.Controllers
     public class EdificioController : ApiController
     {
         [HttpGet]
-        [Route("api/User/GetAllEdifici")]
+        [Route("api/Edificio/GetAllEdifici")]
 
         public IEnumerable<EdificioVM> GetAllEdifici()
         {
@@ -30,7 +30,7 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpGet]
-        [Route("api/User/GetEdificio")]
+        [Route("api/Edificio/GetEdificio")]
         public IHttpActionResult GetEdificio(int id)
         {
             EdificioManager mng = new EdificioManager();

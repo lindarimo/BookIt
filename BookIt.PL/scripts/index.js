@@ -35,26 +35,39 @@ function getAllRisorse() {
         .fail(function (jqXHR, textStatus, err) {
         alert('Errore durante l estrazione delle risorse!');
     });
-    $.getJSON(webApiUri + '/User/GetAllEdifici')
+    $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done(function (edifici) {
         console.log(edifici);
     })
         .fail(function (jqXHR, textStatus, err) {
         alert('Errore durante l estrazione degli edifici!');
     });
-    $.getJSON(webApiUri + '/User/GetAllSale')
+    $.getJSON(webApiUri + '/Sala/GetAllSale')
         .done(function (sale) {
         console.log(sale);
     })
         .fail(function (jqXHR, textStatus, err) {
         alert('Errore durante l estrazione delle sale!');
     });
-    $.getJSON(webApiUri + '/User/GetAllPrenotazioni')
+    $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
         .done(function (prenotazioni) {
         console.log(prenotazioni);
     })
         .fail(function (jqXHR, textStatus, err) {
         alert('Errore durante l estrazione delle prenotazioni!');
+    });
+}
+function creaRisorsa() {
+    var p = { Cognome: "Bianchi", Email: "linda.rimoldi@reti.it", FlagPrenotazione: true, ID: 6, Nome: "Linda", Username: "lalalalala" };
+    $.ajax({
+        type: "POST",
+        url: webApiUri + '/User/PostUser',
+        contentType: 'application/json',
+        data: JSON.stringify(p)
+    }).done(function (data) {
+        console.log(JSON.stringify(data));
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert("An error occurred while creating UserTitle");
     });
 }
 $(document).ready(function () {
