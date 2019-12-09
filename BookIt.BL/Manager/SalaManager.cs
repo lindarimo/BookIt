@@ -61,15 +61,15 @@ namespace BookIt.BL.Manager
         /// Creates the given User.
         /// </summary>
         /// <param name="user">The User entity to create</param>
-        /*public void CreateUser(Risorsa user)
+        public void CreateSala(Sala sala)
         {
-            DAL.Repository.RisorsaRepository repo = null;
-            Risorsa result = null;
+            DAL.Repository.SalaRepository repo = null;
+            Sala result = null;
 
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
-                result = repo.Add(user);
+                repo = new DAL.Repository.SalaRepository();
+                result = repo.Add(sala);
                 DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace BookIt.BL.Manager
                 ///LogManager.Error(ex);
                 throw ex;
             }
-        }*/
+        }
 
         /// <summary>
         /// Updates the given User.

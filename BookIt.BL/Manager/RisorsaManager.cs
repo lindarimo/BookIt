@@ -93,13 +93,13 @@ namespace BookIt.BL.Manager
             {
                 repo = new DAL.Repository.RisorsaRepository();
                 Risorsa actual = repo.GetById(id);
-                actual.Nome = risorsa.Nome;
+                actual.FlagPrenotazione = risorsa.FlagPrenotazione;
                 repo.Update(actual);
                 DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                //LogManager.Error(ex);
                 throw ex;
             }
         }

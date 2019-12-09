@@ -53,16 +53,17 @@ namespace BookIt.SL.Controllers
             return Ok(risorsa);
         }*/
 
-        /*[HttpPut]
-        public IHttpActionResult PutUser(int id, [FromBody] UserVM item)
+        [HttpPost]
+        [Route("api/Edificio/PostEdificio")]
+        public IHttpActionResult PostEdificio(EdificioVM edificio)
         {
-            UsersManager mng = new UsersManager();
+            EdificioManager mng = new EdificioManager();
             // TODO: use Mappers!
-            User user = new User() { Id = item.Id, UserTitleId = item.UserTitleId, Username = item.Username, Surname = item.Surname, Name = item.Name };
-            mng.UpdateUser(id, user);
+            Edificio nuovoEdificio = new Edificio() { ID_Edificio = edificio.ID_Edificio, Nome = edificio.Nome, Indirizzo = edificio.Indirizzo, Stato = edificio.Stato };
+            mng.CreateEdificio(nuovoEdificio);
 
-            return Ok(id);
-        }*/
+            return Ok(edificio);
+        }
 
         /*[HttpDelete]
         public IHttpActionResult DeleteRisorsa([FromUri] int id)

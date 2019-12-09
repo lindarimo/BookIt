@@ -44,15 +44,16 @@ namespace BookIt.SL.Controllers
             return Ok(new SalaVM() { ID_Sala = sala.ID_Sala, ID_Edificio = sala.ID_Edificio, Nome = sala.Nome, NumeroPostiDisponibili = sala.NumeroPostiDisponibili, Stato = sala.Stato });
         }
 
-        /*[HttpPost]
-        public IHttpActionResult PostUser(RisorsaVM risorsa)
+        [HttpPost]
+        [Route("api/Sala/PostSala")]
+        public IHttpActionResult PostSala(SalaVM sala)
         {
-            RisorsaManager mng = new RisorsaManager();
+            SalaManager mng = new SalaManager();
             // TODO: use Mappers!
-            Risorsa nuovaRisorsa = new Risorsa() { ID = risorsa.ID, Cognome = risorsa.Cognome, Nome = risorsa.Nome, Username = risorsa.Username, Email = risorsa.Email, FlagPrenotazione = risorsa.FlagPrenotazione };
-            mng.CreateUser(nuovaRisorsa);
-            return Ok(risorsa);
-        }*/
+            Sala nuovaSala = new Sala() { ID_Sala = sala.ID_Sala, ID_Edificio = sala.ID_Edificio, Nome = sala.Nome, NumeroPostiDisponibili = sala.NumeroPostiDisponibili, Stato = sala.Stato };
+            mng.CreateSala(nuovaSala);
+            return Ok(sala);
+        }
 
         /*[HttpPut]
         public IHttpActionResult PutUser(int id, [FromBody] UserVM item)

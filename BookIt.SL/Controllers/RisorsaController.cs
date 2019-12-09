@@ -56,6 +56,19 @@ namespace BookIt.SL.Controllers
             return Ok(risorsa);
         }
 
+        [HttpPut]
+        [Route("api/User/UpdateUserFlag")]
+
+        public IHttpActionResult UpdateUserFlag([FromUri] int id, RisorsaVM risorsa)
+        {
+            RisorsaManager mng = new RisorsaManager();
+            // TODO: use Mappers!
+            Risorsa risorsaAggiornata = new Risorsa() { ID = risorsa.ID, Cognome = risorsa.Cognome, Nome = risorsa.Nome, Username = risorsa.Username, Email = risorsa.Email, FlagPrenotazione = risorsa.FlagPrenotazione };
+            
+            mng.UpdateUser(id, risorsaAggiornata);
+            return Ok(risorsa);
+        }
+
         [HttpDelete]
         public IHttpActionResult DeleteRisorsa([FromUri] int id)
         {
