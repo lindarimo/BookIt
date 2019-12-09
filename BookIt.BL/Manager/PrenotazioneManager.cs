@@ -107,15 +107,15 @@ namespace BookIt.BL.Manager
         /// Deletes the User with the given identifier.
         /// </summary>
         /// <param name="id">The User identifier</param>
-        /*public void DeleteUser(int id)
+        public void DeletePrenotazione(int id)
         {
-            DAL.Repository.RisorsaRepository repo = null;
+            DAL.Repository.PrenotazioneRepository repo = null;
 
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
-                Risorsa userToDelete = this.GetUserById(id);
-                repo.Delete(userToDelete);
+                repo = new DAL.Repository.PrenotazioneRepository();
+                Prenotazione prenotazioneToDelete = this.GetPrenotazioneById(id);
+                repo.Delete(prenotazioneToDelete);
                 DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -123,6 +123,6 @@ namespace BookIt.BL.Manager
                 ///LogManager.Error(ex);
                 throw ex;
             }
-        }*/
+        }
     }
 }

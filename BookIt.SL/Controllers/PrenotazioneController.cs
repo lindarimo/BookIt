@@ -65,19 +65,20 @@ namespace BookIt.SL.Controllers
             return Ok(id);
         }*/
 
-        /*[HttpDelete]
-        public IHttpActionResult DeleteRisorsa([FromUri] int id)
+        [HttpDelete]
+        [Route("api/Prenotazione/DeletePrenotazione")]
+        public IHttpActionResult DeletePrenotazione([FromUri] int id)
         {
             try
             {
-                RisorsaManager mng = new RisorsaManager();
-                mng.DeleteUser(id);
+                PrenotazioneManager mng = new PrenotazioneManager();
+                mng.DeletePrenotazione(id);
                 return Ok(id);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }*/
+        }
     }
 }
