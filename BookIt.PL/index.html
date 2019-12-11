@@ -12,10 +12,10 @@
     <script> var exports = {}; </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <script src="scripts/services.js"></script>
-
+>
     <script src="scripts/model.js"></script>
+    <script src="scripts/services.js"></script>
+    <script src="scripts/index.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -45,21 +45,22 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div>
-        <button onclick="getAllRisorse();">Ciao</button>
+        <button onclick="getAllRisorse();">getAll Risorsa</button>
+        <button onclick="getAllPrenotazioni();">getAll Prenotazioni</button>
         <button onclick="creaRisorsa();">Crea Risorsa</button>
         <button onclick="aggiornaRisorsa();">Aggiorna Risorsa</button>
         <button onclick="getRisorsa();">Get Risorsa</button>
         <button onclick="creaEdificio();">Crea Edificio</button>
         <button onclick="creaSala();">Crea Sala</button>
         <button onclick="deletePrenotazione();">Cancella Prenotazione</button>
+
+        <button onclick="getAllUsernames();">usernames</button>
+
     </div>
 
     </div>
-    <select>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option>
+    <select id="selectUsername">
+
     </select>
     <script>var exports = { "__esModule": true };</script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
