@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES5",
     "module": "amd",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "outDir": "scripts/"
+    "strict": true,  
+    "strictPropertyInitialization": false                         
   },
-  "exclude": [
-    "node_modules"
-  ]
+
 }
