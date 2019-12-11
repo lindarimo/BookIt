@@ -1,0 +1,1 @@
+requirejs(['model', 'services','index'])

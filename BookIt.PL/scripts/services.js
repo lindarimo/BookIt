@@ -1,8 +1,86 @@
 "use strict";
 exports.__esModule = true;
+//import { populate } from "./index";
 //#region Variables
 var webApiUri = 'http://localhost:60398/api';
 //#endregion
+$(document).ready(function () {
+    getAllUsernames();
+    getAllEdificiNames();
+    getAllSaleNames();
+});
+function populateUsernames(usernames) {
+    for (var element in usernames) {
+        console.log(usernames[element]);
+        $('#selectUsername').append('<option>' + usernames[element] + '</option>');
+    }
+}
+exports.populateUsernames = populateUsernames;
+function populateEdifici(edifici) {
+    for (var element in edifici) {
+        console.log(edifici[element]);
+        $('#selectEdificio').append("<option value = \"" + edifici[element] + "\"> " + edifici[element] + " </option>");
+    }
+}
+exports.populateEdifici = populateEdifici;
+function populateSale(sale) {
+    for (var element in sale) {
+        console.log(sale[element]);
+        $('#selectSala').append('<option>' + sale[element] + '</option>');
+    }
+}
+exports.populateSale = populateSale;
+function getAllUsernames() {
+    var risorseArray = [];
+    $.getJSON(webApiUri + '/User/GetAllUsers')
+        .done(function (risorse) {
+        $.each(risorse, function (key, item) {
+            risorseArray.push(item.Username);
+        });
+        console.log(risorseArray);
+        //console.log(risorse);
+        populateUsernames(risorseArray);
+    })
+        .fail(function (jqXHR, textStatus, err) {
+        alert('Errore durante l estrazione delle risorse!');
+    });
+    return risorseArray;
+}
+exports.getAllUsernames = getAllUsernames;
+function getAllEdificiNames() {
+    var edificiArray = [];
+    $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
+        .done(function (edifici) {
+        $.each(edifici, function (key, item) {
+            edificiArray.push(item.Nome);
+        });
+        console.log(edificiArray);
+        //console.log(risorse);
+        populateEdifici(edificiArray);
+    })
+        .fail(function (jqXHR, textStatus, err) {
+        alert('Errore durante l estrazione delle risorse!');
+    });
+    return edificiArray;
+}
+exports.getAllEdificiNames = getAllEdificiNames;
+function getAllSaleNames() {
+    var saleArray = [];
+    $.getJSON(webApiUri + '/Sala/GetAllSale')
+        .done(function (sale) {
+        $.each(sale, function (key, item) {
+            saleArray.push(item.Nome);
+        });
+        console.log(saleArray);
+        //console.log(risorse);
+        populateSale(saleArray);
+    })
+        .fail(function (jqXHR, textStatus, err) {
+        alert('Errore durante l estrazione delle risorse!');
+    });
+    return saleArray;
+}
+exports.getAllSaleNames = getAllSaleNames;
 function getAllRisorse() {
     $.getJSON(webApiUri + '/User/GetAllUsers')
         .done(function (risorse) {
@@ -13,22 +91,6 @@ function getAllRisorse() {
     });
 }
 exports.getAllRisorse = getAllRisorse;
-function getAllUsernames() {
-    var risorseArray = [];
-    $.getJSON(webApiUri + '/User/GetAllUsers')
-        .done(function (risorse) {
-        $.each(risorse, function (key, item) {
-            risorseArray.push(item.Username);
-        });
-        console.log(risorseArray);
-        //console.log(risorse);
-    })
-        .fail(function (jqXHR, textStatus, err) {
-        alert('Errore durante l estrazione delle risorse!');
-    });
-    return risorseArray;
-}
-exports.getAllUsernames = getAllUsernames;
 function getAllEdifici() {
     $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done(function (edifici) {
@@ -100,7 +162,7 @@ function getRisorsa(id) {
 }
 exports.getRisorsa = getRisorsa;
 function creaEdificio() {
-    var p = { Nome: "Edificio", Indirizzo: "via verdi 465", Stato: "prenotabile" };
+    var p = { Nome: "Edificio 3", Indirizzo: "via verdi 465", Stato: "Disponibile" };
     $.ajax({
         type: "POST",
         url: webApiUri + '/Edificio/PostEdificio',
@@ -140,3 +202,6 @@ function deletePrenotazione() {
     });
 }
 exports.deletePrenotazione = deletePrenotazione;
+$("#selectEdificio").change(function () {
+    alert($('option:selected', this).text());
+});

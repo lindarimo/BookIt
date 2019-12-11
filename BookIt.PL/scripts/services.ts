@@ -1,18 +1,32 @@
 import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
+//import { populate } from "./index";
 
 //#region Variables
 const webApiUri: string = 'http://localhost:60398/api';
 //#endregion
+$(document).ready(() => {
+    getAllUsernames();
+    getAllEdificiNames();
+    getAllSaleNames();
+})
 
-export function getAllRisorse() {
-    $.getJSON(webApiUri + '/User/GetAllUsers')
-        .done((risorse: Risorsa[]) => {
-            console.log(risorse);
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle risorse!');
-        }
-        );
+export function populateUsernames(usernames: String[]) {
+    for (var element in usernames) {
+        console.log(usernames[element]);
+        $('#selectUsername').append('<option>' + usernames[element] + '</option>')
+    }
+}
+export function populateEdifici(edifici: String[]) {
+    for (var element in edifici) {
+        console.log(edifici[element]);
+        $('#selectEdificio').append(`<option value = "${edifici[element]}"> ${edifici[element]} </option>`)
+    }
+}
+export function populateSale(sale: String[]) {
+    for (var element in sale) {
+        console.log(sale[element]);
+        $('#selectSala').append('<option>' + sale[element] + '</option>')
+    }
 }
 export function getAllUsernames(): Array<string> {
     var risorseArray: Array<string> = [];
@@ -23,6 +37,7 @@ export function getAllUsernames(): Array<string> {
             })
             console.log(risorseArray);
             //console.log(risorse);
+            populateUsernames(risorseArray);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
@@ -30,6 +45,51 @@ export function getAllUsernames(): Array<string> {
         );
     return risorseArray;
 }
+export function getAllEdificiNames(): Array<string> {
+    var edificiArray: Array<string> = [];
+    $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
+        .done((edifici: Edificio[]) => {
+            $.each(edifici, (key, item: Edificio) => {
+                edificiArray.push(item.Nome);
+            })
+            console.log(edificiArray);
+            //console.log(risorse);
+            populateEdifici(edificiArray);
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alert('Errore durante l estrazione delle risorse!');
+        }
+        );
+    return edificiArray;
+}
+export function getAllSaleNames(): Array<string> {
+    var saleArray: Array<string> = [];
+    $.getJSON(webApiUri + '/Sala/GetAllSale')
+        .done((sale: Sala[]) => {
+            $.each(sale, (key, item: Sala) => {
+                saleArray.push(item.Nome);
+            })
+            console.log(saleArray);
+            //console.log(risorse);
+            populateSale(saleArray);
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alert('Errore durante l estrazione delle risorse!');
+        }
+        );
+    return saleArray;
+}
+export function getAllRisorse() {
+    $.getJSON(webApiUri + '/User/GetAllUsers')
+        .done((risorse: Risorsa[]) => {
+            console.log(risorse);
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alert('Errore durante l estrazione delle risorse!');
+        }
+        );
+}
+
 export function getAllEdifici() {
     $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done((edifici: Edificio[]) => {
@@ -103,7 +163,7 @@ export function getRisorsa(id: number): void {
 }
 
 export function creaEdificio(): void {
-    var p = { Nome: "Edificio", Indirizzo: "via verdi 465", Stato: "prenotabile" };
+    var p = { Nome: "Edificio 3", Indirizzo: "via verdi 465", Stato: "Disponibile" };
     $.ajax({
         type: "POST",
         url: webApiUri + '/Edificio/PostEdificio',
@@ -142,3 +202,7 @@ export function deletePrenotazione(): void {
         alert("An error occurred while creating UserTitle");
     });
 }
+
+$("#selectEdificio").change(function() {
+    alert( $('option:selected', this).text() );
+});

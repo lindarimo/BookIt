@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "sourceMap": true
+    "target": "es6",
+    "module": "amd",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "outDir": "scripts/"
   },
   "exclude": [
-      "node_modules"
+    "node_modules"
   ]
 }
