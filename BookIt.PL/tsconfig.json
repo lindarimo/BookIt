@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es5",
     "module": "amd",
     "strict": true,  
     "strictPropertyInitialization": false                         

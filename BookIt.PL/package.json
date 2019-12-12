@@ -2,10 +2,10 @@
   "name": "bookit.pl",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "test",
-    "tsc_amd": "tsc --module amd services.ts"
+    "tsc_amd": "tsc --module amd index.ts"
   },
   "author": "Linda Rimoldi",
   "license": "ISC",
@@ -16,8 +16,5 @@
     "requirejs": "^2.3.6",
     "underscore": "^1.9.1"
   },
-  "devDependencies": {
-    "@types/jquery": "^3.3.31",
-    "@types/node": "^12.12.16"
-  }
+  "devDependencies": {}
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,13 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     <title>BookIt</title>
-    <script>var exports = {};</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-    <!-- Bootstrap -->
+    <!-- <script>var exports = {};</script> -->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src = "./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src = "./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src = "./node_modules/bootstrap/dist/css/bootstrap.min.css"></script>
+    <script src = "./node_modules/underscore/underscore-min.js"></script>
+
     <script data-main="scripts/app" src="scripts/require.js"></script>
 
 </head>
@@ -38,7 +40,7 @@
     </div>
     <form>
         <select id="selectUsername">Utente</select>
-        <input id="bookDate" type="date"/>
+        <input id="bookDate" type="date" />
         <select id="selectEdificio">Edificio</select>
         <select id="selectSala" disabled>Sala</select>
     </form>

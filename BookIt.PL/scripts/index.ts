@@ -1,6 +1,6 @@
 import { getAllUsernames, getAllEdificiNames, getAllSaleNames } from "./services";
 
-$(function () {
+$(document).ready(() => {
     console.log("loaded");
     getAllUsernames();
     getAllEdificiNames();
