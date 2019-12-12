@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-//import { populate } from "./index";
 //#region Variables
 var webApiUri = 'http://localhost:60398/api';
 //#endregion
