@@ -1,4 +1,5 @@
 import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
+//import { populate } from "./index";
 
 //#region Variables
 const webApiUri: string = 'http://localhost:60398/api';
