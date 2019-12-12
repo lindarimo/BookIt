@@ -1,1 +1,1 @@
-requirejs(['../node_modules/underscore/underscore', 'model', 'services', 'index']);
+requirejs(['../node_modules/underscore/underscore','model', 'services'])
