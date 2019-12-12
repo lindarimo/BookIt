@@ -3,11 +3,6 @@ exports.__esModule = true;
 //#region Variables
 var webApiUri = 'http://localhost:60398/api';
 //#endregion
-$(document).ready(function () {
-    getAllUsernames();
-    getAllEdificiNames();
-    getAllSaleNames();
-});
 function populateUsernames(usernames) {
     for (var element in usernames) {
         console.log(usernames[element]);

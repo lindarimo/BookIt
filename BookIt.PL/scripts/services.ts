@@ -3,11 +3,6 @@ import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
 //#region Variables
 const webApiUri: string = 'http://localhost:60398/api';
 //#endregion
-$(document).ready(() => {
-    getAllUsernames();
-    getAllEdificiNames();
-    getAllSaleNames();
-})
 
 export function populateUsernames(usernames: String[]) {
     for (var element in usernames) {
