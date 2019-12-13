@@ -16,6 +16,10 @@ namespace BookIt.DAL.Repository
         {
             return ((BookItEntities)Context).Salas.SingleOrDefault(i => i.ID_Sala == id);
         }
+        public IEnumerable<Sala> GetByEdificio(int id)
+        {
+            return ((BookItEntities)Context).Salas.Where(i => i.ID_Edificio == id).ToList();
+        }
 
         // Shadowed by base class
         public Sala Add(Sala item)

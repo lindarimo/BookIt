@@ -32,7 +32,25 @@ namespace BookIt.BL.Manager
 
             return result;
         }
+        public IEnumerable<Sala> GetAllSaleByEdificio(int id)
+        {
+            DAL.Repository.SalaRepository SalaRepository = new DAL.Repository.SalaRepository();
+            DAL.Repository.SalaRepository repo = null;
+            IEnumerable<Sala> result = null;
 
+            try
+            {
+                repo = new DAL.Repository.SalaRepository();
+                result = repo.GetByEdificio(id);
+            }
+            catch (Exception ex)
+            {
+                ///LogManager.Error(ex);
+                throw ex;
+            }
+
+            return result;
+        }
         /// <summary>
         /// Returns the User entity with the given identifier.
         /// </summary>

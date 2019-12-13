@@ -31,6 +31,22 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpGet]
+        [Route("api/Sala/GetAllSaleByEdificio/{id}")]
+
+        public IEnumerable<SalaVM> GetAllSaleByEdificio([FromUri]int id)
+        {
+            SalaManager mng = new SalaManager();
+            List<Sala> sale = mng.GetAllSaleByEdificio(id).ToList();
+            // TODO: use Mappers!
+            List<SalaVM> result = new List<SalaVM>();
+            for (int i = 0; i < sale.Count(); i++)
+            {
+                result.Add(new SalaVM() { ID_Sala = sale[i].ID_Sala, ID_Edificio = sale[i].ID_Edificio, Nome = sale[i].Nome, NumeroPostiDisponibili = sale[i].NumeroPostiDisponibili, Stato = sale[i].Stato });
+            }
+            return result;
+        }
+
+        [HttpGet]
         [Route("api/Sala/GetSala")]
         public IHttpActionResult GetSala(int id)
         {

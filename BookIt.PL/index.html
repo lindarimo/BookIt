@@ -11,11 +11,11 @@
     <title>BookIt</title>
     <!-- <script>var exports = {};</script> -->
 
-    <script src = "./node_modules/jquery/dist/jquery.min.js"></script>
-    <script src = "./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-    <script src = "./node_modules/underscore/underscore-min.js"></script>
+    <script src="./node_modules/underscore/underscore-min.js"></script>
 
     <script data-main="scripts/app" src="scripts/require.js"></script>
 
@@ -23,9 +23,8 @@
 
 <body>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div>
-        <button onclick="getAllRisorse();">getAll Risorsa</button>
+        <button id="getAllRisorse">getAll Risorsa</button>
         <button onclick="getAllPrenotazioni();">getAll Prenotazioni</button>
         <button onclick="creaRisorsa();">Crea Risorsa</button>
         <button onclick="aggiornaRisorsa();">Aggiorna Risorsa</button>
@@ -34,15 +33,34 @@
         <button onclick="creaSala();">Crea Sala</button>
         <button onclick="deletePrenotazione();">Cancella Prenotazione</button>
 
+        <button id="getAllSaleByEdificio">Sale per edificio</button>
+
         <button onclick="getAllUsernames();">usernames</button>
 
     </div>
+    <hr>
+    <form action="/action_page.php">
+        <select id="selectUsername" required>
+            <option value="">Seleziona un utente</option>
+        </select>
+        <input id="bookDate" type="date" required />
+        <select id="selectEdificio" required>
+            <option value="">Seleziona un edificio</option>
+        </select>
+        <select id="selectSala" required>
+            <option value="">Seleziona una sala</option>
+        </select>
 
-    </div>
-    <form>
-        <select id="selectUsername">Utente</select>
-        <input id="bookDate" type="date" />
-        <select id="selectEdificio">Edificio</select>
-        <select id="selectSala" disabled>Sala</select>
+        <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <p>Crea una nuova risorsa</p>
+    <form action="creaRisorsa()">
+        <select id="selectUsername" required>Utente</select>
+        <input id="bookDate" type="date" required />
+        <select id="selectEdificio" required>
+            <select id="selectSala" required>Sala</select>
+
+            <input type="submit" value="Submit" onclick="creaRisorsa()">
     </form>
 </body>

@@ -1,27 +1,11 @@
 import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
+import { populateEdifici, populateUsernames, populateSale } from "./index";
+//import { populateUsernames, populateEdifici, populateSale } from "./index";
 
 //#region Variables
 const webApiUri: string = 'http://localhost:60398/api';
 //#endregion
 
-export function populateUsernames(usernames: String[]) {
-    for (var element in usernames) {
-        console.log(usernames[element]);
-        $('#selectUsername').append('<option>' + usernames[element] + '</option>')
-    }
-}
-export function populateEdifici(edifici: String[]) {
-    for (var element in edifici) {
-        console.log(edifici[element]);
-        $('#selectEdificio').append(`<option value = "${edifici[element]}"> ${edifici[element]} </option>`)
-    }
-}
-export function populateSale(sale: String[]) {
-    for (var element in sale) {
-        console.log(sale[element]);
-        $('#selectSala').append('<option>' + sale[element] + '</option>')
-    }
-}
 export function getAllUsernames(): Array<string> {
     var risorseArray: Array<string> = [];
     $.getJSON(webApiUri + '/User/GetAllUsers')
@@ -39,23 +23,23 @@ export function getAllUsernames(): Array<string> {
         );
     return risorseArray;
 }
-export function getAllEdificiNames(): Array<string> {
-    var edificiArray: Array<string> = [];
-    $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-        .done((edifici: Edificio[]) => {
-            $.each(edifici, (key, item: Edificio) => {
-                edificiArray.push(item.Nome);
-            })
-            console.log(edificiArray);
-            //console.log(risorse);
-            populateEdifici(edificiArray);
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle risorse!');
-        }
-        );
-    return edificiArray;
-}
+// export function getAllEdificiNames(): Array<string> {
+//     var edificiArray: Array<string> = [];
+//     $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
+//         .done((edifici: Edificio[]) => {
+//             $.each(edifici, (key, item: Edificio) => {
+//                 edificiArray.push(item.Nome);
+//             })
+//             console.log(edificiArray);
+//             //console.log(risorse);
+//             populateEdifici(edificiArray);
+//         })
+//         .fail(function (jqXHR, textStatus, err) {
+//             alert('Errore durante l estrazione delle risorse!');
+//         }
+//         );
+//     return edificiArray;
+// }
 export function getAllSaleNames(): Array<string> {
     var saleArray: Array<string> = [];
     $.getJSON(webApiUri + '/Sala/GetAllSale')
@@ -73,6 +57,25 @@ export function getAllSaleNames(): Array<string> {
         );
     return saleArray;
 }
+
+export function getAllSaleByEdificio(id: any): Array<string> {
+    var saleArray: Array<string> = [];
+    $.ajax({
+        type: "GET",
+        url: webApiUri + '/Sala/GetAllSaleByEdificio/' + id,
+        contentType: 'application/json',
+    }).done(function (sale) {
+        $.each(sale, (key, item: Sala) => {
+            saleArray.push(item.Nome);
+        })
+        console.log(saleArray);
+        populateSale(saleArray);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert("An error occurred while creating UserTitle");
+    });
+    return saleArray;
+}
+
 export function getAllRisorse() {
     $.getJSON(webApiUri + '/User/GetAllUsers')
         .done((risorse: Risorsa[]) => {
@@ -88,7 +91,7 @@ export function getAllEdifici() {
     $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done((edifici: Edificio[]) => {
             console.log(edifici);
-
+            populateEdifici(edifici);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione degli edifici!');
@@ -197,6 +200,3 @@ export function deletePrenotazione(): void {
     });
 }
 
-$("#selectEdificio").change(function() {
-    alert( $('option:selected', this).text() );
-});

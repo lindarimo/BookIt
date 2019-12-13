@@ -58,6 +58,25 @@ namespace BookIt.BL.Manager
             return result;
         }
 
+        public Edificio GetEdificioByName(string name)
+        {
+            DAL.Repository.EdificioRepository repo = null;
+            Edificio result = null;
+
+            try
+            {
+                repo = new DAL.Repository.EdificioRepository();
+                result = repo.GetByName(name);
+            }
+            catch (Exception ex)
+            {
+                ///LogManager.Error(ex);
+                throw ex;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Creates the given User.
         /// </summary>

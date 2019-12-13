@@ -17,6 +17,11 @@ namespace BookIt.DAL.Repository
             return ((BookItEntities)Context).Edificios.SingleOrDefault(i => i.ID_Edificio == id);
         }
 
+        public Edificio GetByName(string name)
+        {
+            return ((BookItEntities)Context).Edificios.SingleOrDefault(i => i.Nome == name);
+        }
+
         // Shadowed by base class
         public Edificio Add(Edificio item)
         {

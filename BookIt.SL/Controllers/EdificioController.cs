@@ -31,10 +31,10 @@ namespace BookIt.SL.Controllers
 
         [HttpGet]
         [Route("api/Edificio/GetEdificio")]
-        public IHttpActionResult GetEdificio(int id)
+        public IHttpActionResult GetEdificio(string nomeEdificio)
         {
             EdificioManager mng = new EdificioManager();
-            Edificio edificio = mng.GetEdificioById(id);
+            Edificio edificio = mng.GetEdificioByName(nomeEdificio);
             if (edificio == null)
             {
                 return NotFound();
