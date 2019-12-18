@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>BookIt</title>
+    <!-- <script>var exports = {};</script> -->
+
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="./node_modules/underscore/underscore-min.js"></script>
+
+    <link href="CSS/index.css" rel="stylesheet">
+
+    <script data-main="scripts/app" src="scripts/require.js"></script>
+
+</head>
+
+<body>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#risorsaModal">Crea una nuova risorsa</button>
+
+    <!-- Modal -->
+    <div id="risorsaModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Crea una nuova risorsa</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="risorsaForm">
+                        Cognome:
+                        <input id="cognome" type="text" required /><br>
+                        Nome:
+                        <input id="nome" type="text" required /><br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id ="creaRisorsa" type="submit" class="btn btn-default">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div>
+        <button id="getAllRisorse">getAll Risorsa</button>
+        <button onclick="getRisorsa();">Get Risorsa</button>
+        <button onclick="aggiornaRisorsa();">Aggiorna Risorsa</button>
+        <hr>
+    </div>
+    <table id="risorseTable" style="display: block;">
+        <tr class="header">
+            <th>Cognome</th>
+            <th>Nome</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <!--number 1-->
+        <tbody class="risorseTbody">
+
+        </tbody>
+    </table>
+</body>

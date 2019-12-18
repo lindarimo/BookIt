@@ -17,6 +17,8 @@
 
     <script src="./node_modules/underscore/underscore-min.js"></script>
 
+    <link href="CSS/index.css" rel="stylesheet">
+
     <script data-main="scripts/app" src="scripts/require.js"></script>
 
 </head>
@@ -24,22 +26,19 @@
 <body>
 
     <div>
-        <button id="getAllRisorse">getAll Risorsa</button>
+        <a href = "risorse.html">Elenco di tutte le risorse</a><br>
+        <a href = "edifici.html">Elenco di tutti gli edifici</a><br>
+
+
         <button onclick="getAllPrenotazioni();">getAll Prenotazioni</button>
-        <button onclick="creaRisorsa();">Crea Risorsa</button>
-        <button onclick="aggiornaRisorsa();">Aggiorna Risorsa</button>
-        <button onclick="getRisorsa();">Get Risorsa</button>
-        <button onclick="creaEdificio();">Crea Edificio</button>
+        
         <button onclick="creaSala();">Crea Sala</button>
         <button onclick="deletePrenotazione();">Cancella Prenotazione</button>
-
-        <button id="getAllSaleByEdificio">Sale per edificio</button>
-
         <button onclick="getAllUsernames();">usernames</button>
 
     </div>
     <hr>
-    <form action="/action_page.php">
+    <form id="prenotazioneForm">
         <select id="selectUsername" required>
             <option value="">Seleziona un utente</option>
         </select>
@@ -50,17 +49,13 @@
         <select id="selectSala" required>
             <option value="">Seleziona una sala</option>
         </select>
+        <input type="text" id="descrizione" required>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Prenota" id="creaPrenotazione">
     </form>
     <hr>
-    <p>Crea una nuova risorsa</p>
-    <form action="creaRisorsa()">
-        <select id="selectUsername" required>Utente</select>
-        <input id="bookDate" type="date" required />
-        <select id="selectEdificio" required>
-            <select id="selectSala" required>Sala</select>
 
-            <input type="submit" value="Submit" onclick="creaRisorsa()">
-    </form>
+
+    
+
 </body>

@@ -66,10 +66,36 @@ namespace BookIt.BL.Manager
         {
             DAL.Repository.RisorsaRepository repo = null;
             Risorsa result = null;
+            int count;
+            int countEmail;
 
             try
             {
                 repo = new DAL.Repository.RisorsaRepository();
+
+                //Creazione username
+                string usernameString = $"{user.Cognome.Substring(0, 5)}{user.Nome.Substring(0, 2)}".ToLower();
+                count = repo.Find(x => x.Username.Substring(0, 7) == usernameString).Count();
+                user.Username = $"{usernameString}{++count}";
+
+                //Creazione email
+                string emailString = $"{user.Nome}.{user.Cognome}@reti.it".ToLower();
+                countEmail = repo.Find(x => x.Email == emailString).Count();
+                if (countEmail == 0)
+                {
+                    user.Email = emailString;
+                }
+                else
+                {
+                    user.Email = $"{user.Nome}.{user.Cognome}{countEmail}@reti.it".ToLower();
+                };
+                
+                //id
+                user.ID = 1;
+
+                //flagPrenotazione
+                user.FlagPrenotazione = false;
+
                 result = repo.Add(user);
                 DAL.GlobalUnitOfWork.Commit();
             }
@@ -85,7 +111,7 @@ namespace BookIt.BL.Manager
         /// </summary>
         /// <param name="id">User identifier</param>
         /// <param name="user">User entity to update</param>
-        public void UpdateUser(int id, Risorsa risorsa)
+        public void UpdateUser(int id)
         {
             DAL.Repository.RisorsaRepository repo = null;
 
@@ -93,7 +119,7 @@ namespace BookIt.BL.Manager
             {
                 repo = new DAL.Repository.RisorsaRepository();
                 Risorsa actual = repo.GetById(id);
-                actual.FlagPrenotazione = risorsa.FlagPrenotazione;
+                actual.FlagPrenotazione = true;
                 repo.Update(actual);
                 DAL.GlobalUnitOfWork.Commit();
             }
