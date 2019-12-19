@@ -24,55 +24,33 @@
 </head>
 
 <body>
+    <button onclick="creaSala();">Crea Sala</button>
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edificioModal">Crea un nuovo edificio</button>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#salaModal">Crea una nuova sala</button>
 
     <!-- Modal -->
-    <div id="edificioModal" class="modal fade" role="dialog">
+    <div id="salaModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Crea una nuovo edificio</h4>
+                    <h4 class="modal-title">Crea una nuova sala</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form id="edificioForm">
-                        Nome:
-                        <input id="nomeEdificio" type="text" required /><br>
-                        Indirizzo:
-                        <input id="indirizzoEdificio" type="text" required /><br>
-                        Stato
-                        <select id="disponibilitaEdificio" required>
-                            <option value="">L'edificio è disponibile?</option>
-                            <option value="Disponibile">Disponibile</option>
-                            <option value="Non disponibile">Non disponibile</option>
-                        </select i>
+                    <form id="salaForm">
+                        <select id="selectEdificio" required>
+                            <option value="" class="selectDefault">Seleziona un edificio</option>
+                        </select>
+                        <input type="text" id="nomeSala" required>
+                        <input type="number" id="postiSala" required>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button id="creaEdificio" type="submit" class="btn btn-default">Submit</button>
+                    <button id="creaSala" type="submit" class="btn btn-default">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
-
-    <div>
-        <button onclick="creaEdificio();">Crea Edificio</button>
-        <button id="getAllSaleByEdificio">Sale per edificio</button>
-    </div>
-
-    <table id="edificiTable" style="display: block;">
-        <tr class="header">
-            <th>Nome</th>
-            <th>Indirizzo</th>
-        </tr>
-        <!--number 1-->
-        <tbody class="edificiTbody">
-
-        </tbody>
-    </table>
-</body>

@@ -16,6 +16,10 @@ namespace BookIt.DAL.Repository
         {
             return ((BookItEntities)Context).Prenotaziones.SingleOrDefault(i => i.ID_Prenotazione == id);
         }
+        public Prenotazione GetByIdSala(int id)
+        {
+            return ((BookItEntities)Context).Prenotaziones.SingleOrDefault(i => i.ID_Sala == id);
+        }
 
         // Shadowed by base class
         public Prenotazione Add(Prenotazione item)

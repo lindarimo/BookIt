@@ -1,4 +1,4 @@
-requirejs(['model', 'services', 'index', 'risorse', 'edifici']);
+requirejs(['model', 'services', 'index', 'risorse', 'edifici', 'sale']);
 
 //'../node_modules/underscore/underscore',
 // <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

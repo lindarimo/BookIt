@@ -33,6 +33,24 @@ namespace BookIt.BL.Manager
 
             return result;
         }
+        public IEnumerable<Risorsa> GetAllUsersCanBook()
+        {
+            RisorsaRepository RisorsaRepository = new RisorsaRepository();
+            DAL.Repository.RisorsaRepository repo = null;
+            IEnumerable<Risorsa> result = null;
+            try
+            {
+                repo = new DAL.Repository.RisorsaRepository();
+                result = repo.Find(x => x.FlagPrenotazione == true).ToArray();
+            }
+            catch (Exception ex)
+            {
+                ///LogManager.Error(ex);
+                throw ex;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Returns the User entity with the given identifier.

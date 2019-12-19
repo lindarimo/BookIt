@@ -1,9 +1,8 @@
-import { getAllUsernames, getAllRisorse, creaRisorsa, aggiornaRisorsa } from "./services";
+import { getAllRisorse, creaRisorsa, aggiornaRisorsa, getAllUsersCanBook } from "./services";
 import { Risorsa } from "./model";
 
 $(document).ready(() => {
     console.log("loaded");
-    getAllUsernames();
     getAllRisorse();
 })
 $("#getAllRisorse").click(function () {

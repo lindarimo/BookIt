@@ -3,7 +3,6 @@ define(["require", "exports", "./services"], function (require, exports, service
     Object.defineProperty(exports, "__esModule", { value: true });
     $(document).ready(function () {
         console.log("loaded");
-        services_1.getAllUsernames();
         services_1.getAllRisorse();
     });
     $("#getAllRisorse").click(function () {

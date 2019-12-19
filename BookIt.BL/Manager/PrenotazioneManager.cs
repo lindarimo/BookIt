@@ -61,15 +61,15 @@ namespace BookIt.BL.Manager
         /// Creates the given User.
         /// </summary>
         /// <param name="user">The User entity to create</param>
-        /*public void CreateUser(Risorsa user)
+        public void CreatePrenotazione(Prenotazione prenotazione)
         {
-            DAL.Repository.RisorsaRepository repo = null;
-            Risorsa result = null;
+            DAL.Repository.PrenotazioneRepository repo = null;
+            Prenotazione result = null;
 
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
-                result = repo.Add(user);
+                repo = new DAL.Repository.PrenotazioneRepository();
+                result = repo.Add(prenotazione);
                 DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace BookIt.BL.Manager
                 ///LogManager.Error(ex);
                 throw ex;
             }
-        }*/
+        }
 
         /// <summary>
         /// Updates the given User.

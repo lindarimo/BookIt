@@ -3,24 +3,26 @@ define(["require", "exports", "./services"], function (require, exports, service
     Object.defineProperty(exports, "__esModule", { value: true });
     $(document).ready(function () {
         console.log("loaded");
-        services_1.getAllUsernames();
+        //getAllUsernames();
         var edificioName = $('#getAllSaleByEdificio').attr('name') || '';
         console.log(edificioName);
+        services_1.getAllEdificiNames();
+        services_1.getAllUsersCanBook();
     });
-    // $("#getAllSaleByEdificio").click(function () {
-    //     var nomeEdificio = $('option:selected', this).text();
-    //     console.log(nomeEdificio.trim());
-    //     getAllSaleByEdificio(nomeEdificio.trim());
-    // });
+    $("#getAllSaleByEdificio").click(function () {
+        var nomeEdificio = $('option:selected', this).text();
+        services_1.getAllSaleByEdificio(nomeEdificio.trim());
+    });
     $("#selectEdificio").on("change", function () {
         $('.salaItem').remove();
-        console.log($(this).find(":selected").val());
+        $("#selectSala").removeAttr('disabled');
+        $(".selectDefault").prop('disabled', true);
         var idEdificio = $(this).val();
         services_1.getAllSaleByEdificio(idEdificio);
     });
-    // $("#creaPrenotazione").click(function() {
-    //     doPrenotazione();
-    // })
+    $("#creaPrenotazione").click(function () {
+        services_1.doPrenotazione();
+    });
     function populateUsernames(usernames) {
         $.each(usernames, function (key, item) {
             $('#selectUsername').append("<option name = \"" + item.Username + "\" value = \"" + item.ID + "\"> " + item.Username + "</option>");
@@ -28,10 +30,21 @@ define(["require", "exports", "./services"], function (require, exports, service
     }
     exports.populateUsernames = populateUsernames;
     function populateSale(sale) {
-        for (var element in sale) {
-            console.log(sale[element]);
-            $('#selectSala').append('<option class = "salaItem">' + sale[element] + '</option>');
-        }
+        $.each(sale, function (key, item) {
+            $('#selectSala').append("<option class = \"salaItem\" name = \"" + item.Nome + "\" value = \"" + item.ID_Sala + "\"> " + item.Nome + "</option>");
+        });
     }
     exports.populateSale = populateSale;
+    // export function populateSale(sale: String[]) {
+    //     for (var element in sale) {
+    //         console.log(sale[element]);
+    //         $('#selectSala').append('<option class = "salaItem" value = "">' + sale[element] + '</option>')
+    //     }
+    // }
+    function populateEdificiNames(names) {
+        $.each(names, function (key, item) {
+            $('#selectEdificio').append("<option name = \"" + item.Nome + "\" value = \"" + item.ID_Edificio + "\"> " + item.Nome + "</option>");
+        });
+    }
+    exports.populateEdificiNames = populateEdificiNames;
 });

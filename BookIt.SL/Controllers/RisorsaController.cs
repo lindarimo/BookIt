@@ -31,6 +31,22 @@ namespace BookIt.SL.Controllers
         }
 
         [HttpGet]
+        [Route("api/User/GetAllUsersCanBook")]
+
+        public IEnumerable<RisorsaVM> GetAllUsersCanBook()
+        {
+            RisorsaManager mng = new RisorsaManager();
+            List<Risorsa> risorse = mng.GetAllUsersCanBook().ToList();
+            // TODO: use Mappers!
+            List<RisorsaVM> result = new List<RisorsaVM>();
+            for (int i = 0; i < risorse.Count(); i++)
+            {
+                result.Add(new RisorsaVM() { ID = risorse[i].ID, Cognome = risorse[i].Cognome, Nome = risorse[i].Nome, Username = risorse[i].Username, Email = risorse[i].Email, FlagPrenotazione = risorse[i].FlagPrenotazione });
+            }
+            return result;
+        }
+
+        [HttpGet]
         [Route("api/User/GetUser")]
         public IHttpActionResult GetUser(int id)
         {

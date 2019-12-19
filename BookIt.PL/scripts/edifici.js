@@ -7,14 +7,13 @@ define(["require", "exports", "./services"], function (require, exports, service
         var edificioName = $('#getAllSaleByEdificio').attr('name') || '';
         console.log(edificioName);
     });
+    $("#creaEdificio").click(function () {
+        services_1.creaEdificio();
+    });
     function populateEdifici(edifici) {
         $.each(edifici, function (key, item) {
-            $(".edificiTbody").append('<tr class= "edificiTr"><td class="nome">' + item.Nome + '</td><td class="indirizzo">' + item.Indirizzo + '</td></tr>');
-            //$(".edificiTbody").append('<tr><td>' + item.Stato + '</td><td>' + item.Email + '</td><td>' + item.FlagPrenotazione + '</td></tr>');
+            $(".edificiTbody").append('<tr class= "edificiTr"><td class="nome">' + item.Nome + '</td><td class="indirizzo">' + item.Indirizzo + '</td><td class="stato">' + item.Stato + '</td></tr>');
         });
-        $('.risorseTr').click(function () {
-            $(this).nextUntil('.risorseTr').toggleClass('hide');
-        }).click();
     }
     exports.populateEdifici = populateEdifici;
 });
