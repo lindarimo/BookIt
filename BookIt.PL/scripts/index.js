@@ -20,7 +20,22 @@ define(["require", "exports", "./services"], function (require, exports, service
         var idEdificio = $(this).val();
         services_1.getAllSaleByEdificio(idEdificio);
     });
-    $("#creaPrenotazione").click(function () {
+    $("#bookDateStart").on("change", function () {
+        var initDate = $("#bookDateStart").val();
+        console.log(initDate);
+        $("#bookDateEnd").removeAttr('disabled');
+        $("#bookDateEnd").attr("min", initDate);
+    });
+    $("#bookDateEnd").focusout(function () {
+        var initDate = $("#bookDateStart").val();
+        var endDate = $("#bookDateEnd").val();
+        if (initDate && endDate && initDate >= endDate) {
+            alert("Attenzione! La data e l'ora di inizio devono essere antecedenti alla data e ora di fine prenotazione!");
+            $("#bookDateEnd").val("");
+        }
+    });
+    $("#creaPrenotazione").click(function (event) {
+        event.preventDefault();
         services_1.doPrenotazione();
     });
     function populateUsernames(usernames) {

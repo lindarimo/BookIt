@@ -61,15 +61,25 @@ namespace BookIt.BL.Manager
         /// Creates the given User.
         /// </summary>
         /// <param name="user">The User entity to create</param>
-        public void CreatePrenotazione(Prenotazione prenotazione)
+        public bool CreatePrenotazione(Prenotazione prenotazione)
         {
             DAL.Repository.PrenotazioneRepository repo = null;
             Prenotazione result = null;
+            int count = 0;
 
             try
             {
                 repo = new DAL.Repository.PrenotazioneRepository();
-                result = repo.Add(prenotazione);
+                count = repo.Find(x => x.ID_Sala == prenotazione.ID_Sala &&
+                                    ((prenotazione.DataInizioPrenotazione >= x.DataInizioPrenotazione && prenotazione.DataInizioPrenotazione <= x.DataFinePrenotazione) ||
+                                    (prenotazione.DataFinePrenotazione >= x.DataInizioPrenotazione && prenotazione.DataFinePrenotazione <= x.DataFinePrenotazione))).Count();
+
+                if (count == 0)
+                {
+                    result = repo.Add(prenotazione);
+                    return true;
+                }
+
                 DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -77,6 +87,7 @@ namespace BookIt.BL.Manager
                 ///LogManager.Error(ex);
                 throw ex;
             }
+            return false;
         }
 
         /// <summary>

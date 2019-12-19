@@ -188,7 +188,7 @@ export function deletePrenotazione(): void {
     });
 }
 
-export function doPrenotazione(): void {
+export function doPrenotazione() {
     let p = {
         ID_Risorsa: $("#selectUsername").find(":selected").val(),
         ID_Sala: $("#selectSala").find(":selected").val(),
@@ -202,8 +202,9 @@ export function doPrenotazione(): void {
         contentType: 'application/json',
         data: JSON.stringify(p)
     }).done(function (data) {
-        console.log(JSON.stringify(data));
+        data !== null ? alert("Prenotazione inserita correttamente!") : alert("Impossibile inserire la prenotazione. Data e ora non disponibili per la sala selezionata. Riprova con altri parametri.");
+        location.reload();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alert("An error occurred while creating UserTitle");
-    });
+    })
 }

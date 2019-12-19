@@ -47,13 +47,13 @@
             <option value="">Seleziona una sala</option>
         </select>
         Data inizio prenotazione:
-        <input id="bookDateStart" type="datetime-local" required />
+        <input id="bookDateStart" type="datetime-local" min="2019-12-01T00:00" max="2019-12-20T00:00" step="1800" required />
         Data fine prenotazione:
-        <input id="bookDateEnd" type="datetime-local" required />
+        <input id="bookDateEnd" type="datetime-local" required disabled/>
 
         <input type="text" id="descrizione" required>
 
-        <input type="submit" value="Prenota" id="creaPrenotazione">
+        <button value="Prenota" id="creaPrenotazione">Prenota</button>
     </form>
     <hr>
 </body>

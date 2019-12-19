@@ -51,8 +51,9 @@ namespace BookIt.SL.Controllers
             PrenotazioneManager mng = new PrenotazioneManager();
             // TODO: use Mappers!
             Prenotazione nuovaPrenotazione = new Prenotazione() { ID_Prenotazione = prenotazione.ID_Prenotazione, ID_Risorsa = prenotazione.ID_Risorsa, ID_Sala = prenotazione.ID_Sala, Descrizione = prenotazione.Descrizione, DataInizioPrenotazione = prenotazione.DataInizioPrenotazione, DataFinePrenotazione = prenotazione.DataFinePrenotazione };
-            mng.CreatePrenotazione(nuovaPrenotazione);
-            return Ok(prenotazione);
+            var result = mng.CreatePrenotazione(nuovaPrenotazione);
+
+            return result ? Ok(nuovaPrenotazione) : Ok<Prenotazione>(null);
         }
 
         /*[HttpPut]
