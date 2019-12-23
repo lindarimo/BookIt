@@ -2,6 +2,7 @@ import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
 import { populateUsernames, populateSale, populateEdificiNames } from "./index";
 import { populateRisorse } from "./risorse";
 import { populateEdifici } from "./edifici";
+import { populatePrenotazioni } from "./prenotazioni";
 //import { populateUsernames, populateEdifici, populateSale } from "./index";
 
 //#region Variables
@@ -47,13 +48,12 @@ export function getAllEdificiNames() {
 // }
 export function getAllRisorse() {
     $.getJSON(webApiUri + '/User/GetAllUsers')
-        .done((risorse) => {
+        .done((risorse: Risorsa[]) => {
             populateRisorse(risorse);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
-        }
-        );
+        });
 }
 
 export function getAllSaleByEdificio(id: any) {
@@ -93,8 +93,7 @@ export function getAllSale() {
 export function getAllPrenotazioni() {
     $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
         .done((prenotazioni: Prenotazione[]) => {
-            console.log(prenotazioni);
-
+            populatePrenotazioni(prenotazioni);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle prenotazioni!');
@@ -149,16 +148,12 @@ export function aggiornaRisorsa(id: number): void {
         alert("An error occurred while creating UserTitle");
     });
 }
+export function getSala(id: number): JQuery.jqXHR<Sala> {
+    return $.getJSON(webApiUri + '/Sala/GetSala/?id=' + id);  
+}
 
-export function getRisorsa(id: number): void {
-    var id = 11;
-    $.getJSON(webApiUri + '/User/GetUser/?id=' + id)
-        .done(function (data) {
-            console.log(JSON.stringify(data));
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alert('An error occurred while retrieving UserTitle details');
-        });
+export function getRisorsa(id: number): JQuery.jqXHR<Risorsa> {
+    return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);  
 }
 
 export function creaSala(): void {
