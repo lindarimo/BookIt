@@ -22,6 +22,9 @@ define(["require", "exports"], function (require, exports) {
     var Prenotazione = /** @class */ (function () {
         function Prenotazione() {
         }
+        Prenotazione.prototype.forEach = function (arg0) {
+            throw new Error("Method not implemented.");
+        };
         return Prenotazione;
     }());
     exports.Prenotazione = Prenotazione;

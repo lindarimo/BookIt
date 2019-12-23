@@ -1,4 +1,4 @@
-define(["require", "exports", "./index", "./risorse", "./edifici", "./prenotazioni"], function (require, exports, index_1, risorse_1, edifici_1, prenotazioni_1) {
+define(["require", "exports", "./index", "./risorse", "./edifici"], function (require, exports, index_1, risorse_1, edifici_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //import { populateUsernames, populateEdifici, populateSale } from "./index";
@@ -86,13 +86,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici", "./prenotazio
     }
     exports.getAllSale = getAllSale;
     function getAllPrenotazioni() {
-        $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
-            .done(function (prenotazioni) {
-            prenotazioni_1.populatePrenotazioni(prenotazioni);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle prenotazioni!');
-        });
+        return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni');
     }
     exports.getAllPrenotazioni = getAllPrenotazioni;
     function creaRisorsa() {

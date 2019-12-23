@@ -20,6 +20,9 @@ export class Sala {
     public Stato: string;
 }
 export class Prenotazione {
+    forEach(arg0: (element: any) => void) {
+        throw new Error("Method not implemented.");
+    }
     public ID_Prenotazione: number;
     public ID_Risorsa: number;
     public ID_Sala: number;

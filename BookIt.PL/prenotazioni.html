@@ -25,12 +25,21 @@
 
 <body>
     <button id="getAllPrenotazioni">getAll Prenotazioni</button>
+    <div class="jumbotron jumbo">
+        <div style="margin-bottom:15px">
+            <form class="form-inline">
+                <input type="text" id="myInput" placeholder="Cerca per nome sala">
+            </form>
+        </div>
+    </div>
 
     <table id="prenotazioniTable" style="display: block;">
         <tr class="header">
             <th>Sala</th>
             <th>Data inizio</th>
             <th>Data fine</th>
+            <th></th>
+            <th></th>
         </tr>
         <!--number 1-->
         <tbody class="prenotazioniTbody">

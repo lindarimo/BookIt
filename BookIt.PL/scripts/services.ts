@@ -90,15 +90,9 @@ export function getAllSale() {
         }
         );
 }
-export function getAllPrenotazioni() {
-    $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
-        .done((prenotazioni: Prenotazione[]) => {
-            populatePrenotazioni(prenotazioni);
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle prenotazioni!');
-        }
-        );
+
+export function getAllPrenotazioni(): JQuery.jqXHR<Prenotazione> {
+    return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
 }
 export function creaRisorsa(): void {
     let p = {
