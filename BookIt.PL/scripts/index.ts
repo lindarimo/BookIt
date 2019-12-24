@@ -1,4 +1,4 @@
-import { getAllSaleByEdificio, getAllEdifici, getAllEdificiNames, getAllUsersCanBook, doPrenotazione } from "./services";
+import { getAllSaleByEdificio, getAllEdifici, getAllEdificiNames, getAllUsersCanBook, doPrenotazione, getAllSale } from "./services";
 import { Edificio, Risorsa, Sala } from "./model";
 
 $(document).ready(() => {
@@ -8,6 +8,12 @@ $(document).ready(() => {
     console.log(edificioName);
     getAllEdificiNames();
     getAllUsersCanBook();
+    getAllSale().then(sale => {
+        console.log(sale);
+        sale.forEach(sala => {
+            $(".listaSale").append('<li>' + sala.Nome + '</li>')
+        });
+    })
 })
 
 $("#getAllSaleByEdificio").click(function () {
@@ -29,11 +35,11 @@ $("#bookDateStart").on("change", function () {
     $("#bookDateEnd").removeAttr('disabled');
     $("#bookDateEnd").attr("min", initDate);
 })
-$("#bookDateEnd").focusout(function() {
+$("#bookDateEnd").focusout(function () {
     let initDate = $("#bookDateStart").val();
     let endDate = $("#bookDateEnd").val();
     if (initDate && endDate && initDate >= endDate) {
-        alert ("Attenzione! La data e l'ora di inizio devono essere antecedenti alla data e ora di fine prenotazione!");
+        alert("Attenzione! La data e l'ora di inizio devono essere antecedenti alla data e ora di fine prenotazione!");
         $("#bookDateEnd").val("");
     }
 })

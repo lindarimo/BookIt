@@ -8,6 +8,12 @@ define(["require", "exports", "./services"], function (require, exports, service
         console.log(edificioName);
         services_1.getAllEdificiNames();
         services_1.getAllUsersCanBook();
+        services_1.getAllSale().then(function (sale) {
+            console.log(sale);
+            sale.forEach(function (sala) {
+                $(".listaSale").append('<li>' + sala.Nome + '</li>');
+            });
+        });
     });
     $("#getAllSaleByEdificio").click(function () {
         var nomeEdificio = $('option:selected', this).text();

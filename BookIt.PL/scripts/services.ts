@@ -46,8 +46,8 @@ export function getAllEdificiNames() {
 //         );
 //     return saleArray;
 // }
-export function getAllRisorse() {
-    $.getJSON(webApiUri + '/User/GetAllUsers')
+export function getAllRisorse(): JQuery.jqXHR<Risorsa[]> {
+    return $.getJSON(webApiUri + '/User/GetAllUsers')
         .done((risorse: Risorsa[]) => {
             populateRisorse(risorse);
         })
@@ -79,19 +79,11 @@ export function getAllEdifici() {
         }
         );
 }
-export function getAllSale() {
-    $.getJSON(webApiUri + '/Sala/GetAllSale')
-        .done((sale: Sala[]) => {
-            console.log(sale);
-
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle sale!');
-        }
-        );
+export function getAllSale(): JQuery.jqXHR<Sala[]> {
+    return $.getJSON(webApiUri + '/Sala/GetAllSale')
 }
 
-export function getAllPrenotazioni(): JQuery.jqXHR<Prenotazione> {
+export function getAllPrenotazioni(): JQuery.jqXHR<Prenotazione[]> {
     return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
 }
 export function creaRisorsa(): void {

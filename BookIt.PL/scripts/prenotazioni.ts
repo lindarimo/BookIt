@@ -1,42 +1,54 @@
-import { getAllPrenotazioni, getRisorsa, getAllRisorse, getAllUsersCanBook, getSala } from "./services";
+import { getAllPrenotazioni, getRisorsa, getAllRisorse, getAllUsersCanBook, getSala, getAllSale } from "./services";
 import { Prenotazione, Risorsa } from "./model";
+
+let prenotazioni: Prenotazione[] = [];
 
 $(document).ready(() => {
     console.log("loaded");
     let inputText = <string>$('input[type="text"]').val();
-    SearchPrenotazioni(inputText);
+    SearchPrenotazioni();
     $("#myInput").keyup(() => {
         inputText = <string>$('input[type="text"]').val();
-        SearchPrenotazioni(inputText);
+        filterPrenotazioni(inputText);
     });
 })
 
 $("#getAllPrenotazioni").click(function () {
     getAllPrenotazioni();
 })
-export function SearchPrenotazioni(inputText: string) {
-    getAllPrenotazioni().then(prenotazioni => {
-        let prenotazioniFiltrate: Prenotazione[] = [];
-        if (inputText.length !== 0) {
-            prenotazioni.forEach(prenotazione => {
-                if (prenotazione.Descrizione.indexOf(inputText) > -1) {
-                    prenotazioniFiltrate.push(prenotazione);
-                }
+export function SearchPrenotazioni() {
+    getAllPrenotazioni().then(response => {
+        getAllSale().then(sale => {
+            response.forEach(p => {
+                let salaTmp = sale.find(s => s.ID_Sala === p.ID_Sala);
+                p.NomeSala = salaTmp ? salaTmp.Nome : "Not found";
+                console.log("Nome sala" + p.NomeSala);
             });
-            populatePrenotazioni(prenotazioniFiltrate);
-
-            console.log("filtrate" + prenotazioniFiltrate)
-        }
-        else {
-            prenotazioni.forEach(prenotazione => {
-                prenotazioniFiltrate.push(prenotazione);
+        });
+        getAllRisorse().then(risorse => {
+            response.forEach(p => {
+                let risorsaTmp = risorse.find(r => r.ID === p.ID_Sala);
+                p.UsernameRisorsa = risorsaTmp ? risorsaTmp.Username : "Not found";
+                console.log("username risorsa" + p.UsernameRisorsa);
             })
-            populatePrenotazioni(prenotazioniFiltrate);
-        }
-        return prenotazioniFiltrate;
-    });
+        })
+        response.forEach(prenotazione => {
+            prenotazioni.push(prenotazione);
+        })
+        console.log("NON filtrate" + prenotazioni)
+        populatePrenotazioni(prenotazioni);
 
+    });
+    
 }
+
+export function filterPrenotazioni(inputText: string) {
+    //al keyup filtra e mostra solo un sottinsieme delle prenotazioni
+    let prenotazioniFiltrate: Prenotazione[] = [];
+    let inputReg = new RegExp(inputText, "i"); //i = ignorecase
+    prenotazioniFiltrate = prenotazioni.filter(p => inputReg.test(p.NomeSala)) && prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
+    populatePrenotazioni(prenotazioniFiltrate);
+};
 
 export function populatePrenotazioni(prenotazioni: Prenotazione[]) {
     $(".prenotazioniTbody").empty();

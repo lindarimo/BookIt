@@ -1,41 +1,52 @@
 define(["require", "exports", "./services"], function (require, exports, services_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var prenotazioni = [];
     $(document).ready(function () {
         console.log("loaded");
         var inputText = $('input[type="text"]').val();
-        SearchPrenotazioni(inputText);
+        SearchPrenotazioni();
         $("#myInput").keyup(function () {
             inputText = $('input[type="text"]').val();
-            SearchPrenotazioni(inputText);
+            filterPrenotazioni(inputText);
         });
     });
     $("#getAllPrenotazioni").click(function () {
         services_1.getAllPrenotazioni();
     });
-    function SearchPrenotazioni(inputText) {
-        services_1.getAllPrenotazioni().then(function (prenotazioni) {
-            console.log(prenotazioni);
-            var prenotazioniFiltrate = [];
-            if (inputText.length !== 0) {
-                prenotazioni.forEach(function (prenotazione) {
-                    if (prenotazione.Descrizione.indexOf(inputText) > -1) {
-                        prenotazioniFiltrate.push(prenotazione);
-                    }
+    function SearchPrenotazioni() {
+        services_1.getAllPrenotazioni().then(function (response) {
+            services_1.getAllSale().then(function (sale) {
+                response.forEach(function (p) {
+                    var salaTmp = sale.find(function (s) { return s.ID_Sala === p.ID_Sala; });
+                    p.NomeSala = salaTmp ? salaTmp.Nome : "Not found";
+                    console.log("Nome sala" + p.NomeSala);
                 });
-                populatePrenotazioni(prenotazioniFiltrate);
-                console.log("filtrate" + prenotazioniFiltrate);
-            }
-            else {
-                prenotazioni.forEach(function (prenotazione) {
-                    prenotazioniFiltrate.push(prenotazione);
+            });
+            services_1.getAllRisorse().then(function (risorse) {
+                response.forEach(function (p) {
+                    var risorsaTmp = risorse.find(function (r) { return r.ID === p.ID_Sala; });
+                    p.UsernameRisorsa = risorsaTmp ? risorsaTmp.Username : "Not found";
+                    console.log("username risorsa" + p.UsernameRisorsa);
                 });
-                populatePrenotazioni(prenotazioniFiltrate);
-            }
-            return prenotazioniFiltrate;
+            });
+            response.forEach(function (prenotazione) {
+                prenotazioni.push(prenotazione);
+            });
+            console.log("NON filtrate" + prenotazioni);
+            populatePrenotazioni(prenotazioni);
         });
     }
     exports.SearchPrenotazioni = SearchPrenotazioni;
+    function filterPrenotazioni(inputText) {
+        //al keyup filtra e mostra solo un sottinsieme delle prenotazioni
+        var prenotazioniFiltrate = [];
+        var inputReg = new RegExp(inputText, "i"); //i = ignorecase
+        prenotazioniFiltrate = prenotazioni.filter(function (p) { return inputReg.test(p.NomeSala); }) && prenotazioni.filter(function (p) { return inputReg.test(p.UsernameRisorsa); });
+        populatePrenotazioni(prenotazioniFiltrate);
+    }
+    exports.filterPrenotazioni = filterPrenotazioni;
+    ;
     function populatePrenotazioni(prenotazioni) {
         $(".prenotazioniTbody").empty();
         $.each(prenotazioni, function (key, prenotazione) {

@@ -43,7 +43,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     //     return saleArray;
     // }
     function getAllRisorse() {
-        $.getJSON(webApiUri + '/User/GetAllUsers')
+        return $.getJSON(webApiUri + '/User/GetAllUsers')
             .done(function (risorse) {
             risorse_1.populateRisorse(risorse);
         })
@@ -76,13 +76,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     }
     exports.getAllEdifici = getAllEdifici;
     function getAllSale() {
-        $.getJSON(webApiUri + '/Sala/GetAllSale')
-            .done(function (sale) {
-            console.log(sale);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle sale!');
-        });
+        return $.getJSON(webApiUri + '/Sala/GetAllSale');
     }
     exports.getAllSale = getAllSale;
     function getAllPrenotazioni() {

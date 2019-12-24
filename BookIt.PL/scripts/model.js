@@ -16,16 +16,25 @@ define(["require", "exports"], function (require, exports) {
     var Sala = /** @class */ (function () {
         function Sala() {
         }
+        Sala.prototype.forEach = function (arg0) {
+            throw new Error("Method not implemented.");
+        };
         return Sala;
     }());
     exports.Sala = Sala;
     var Prenotazione = /** @class */ (function () {
         function Prenotazione() {
         }
-        Prenotazione.prototype.forEach = function (arg0) {
-            throw new Error("Method not implemented.");
-        };
         return Prenotazione;
     }());
     exports.Prenotazione = Prenotazione;
+    var PrenotazioneFiltrata = /** @class */ (function () {
+        function PrenotazioneFiltrata() {
+        }
+        PrenotazioneFiltrata.prototype.forEach = function (arg0) {
+            throw new Error("Method not implemented.");
+        };
+        return PrenotazioneFiltrata;
+    }());
+    exports.PrenotazioneFiltrata = PrenotazioneFiltrata;
 });
