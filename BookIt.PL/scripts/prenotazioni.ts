@@ -27,7 +27,7 @@ export function SearchPrenotazioni() {
         });
         getAllRisorse().then(risorse => {
             response.forEach(p => {
-                let risorsaTmp = risorse.find(r => r.ID === p.ID_Sala);
+                let risorsaTmp = risorse.find(r => r.ID === p.ID_Risorsa);
                 p.UsernameRisorsa = risorsaTmp ? risorsaTmp.Username : "Not found";
                 console.log("username risorsa" + p.UsernameRisorsa);
             })
@@ -39,14 +39,18 @@ export function SearchPrenotazioni() {
         populatePrenotazioni(prenotazioni);
 
     });
-    
+
 }
 
 export function filterPrenotazioni(inputText: string) {
     //al keyup filtra e mostra solo un sottinsieme delle prenotazioni
     let prenotazioniFiltrate: Prenotazione[] = [];
+    let prenotazioniFiltrateSala: Prenotazione[] = [];
+    let prenotazioniFiltrateUsername: Prenotazione[] = [];
     let inputReg = new RegExp(inputText, "i"); //i = ignorecase
-    prenotazioniFiltrate = prenotazioni.filter(p => inputReg.test(p.NomeSala)) && prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
+    prenotazioniFiltrateSala = prenotazioni.filter(p => inputReg.test(p.NomeSala));
+    prenotazioniFiltrateUsername =  prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
+    prenotazioniFiltrate = prenotazioniFiltrateSala.concat(prenotazioniFiltrateUsername.filter((item) => prenotazioniFiltrateSala.indexOf(item) < 0))
     populatePrenotazioni(prenotazioniFiltrate);
 };
 

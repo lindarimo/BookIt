@@ -25,7 +25,7 @@ define(["require", "exports", "./services"], function (require, exports, service
             });
             services_1.getAllRisorse().then(function (risorse) {
                 response.forEach(function (p) {
-                    var risorsaTmp = risorse.find(function (r) { return r.ID === p.ID_Sala; });
+                    var risorsaTmp = risorse.find(function (r) { return r.ID === p.ID_Risorsa; });
                     p.UsernameRisorsa = risorsaTmp ? risorsaTmp.Username : "Not found";
                     console.log("username risorsa" + p.UsernameRisorsa);
                 });
@@ -41,8 +41,14 @@ define(["require", "exports", "./services"], function (require, exports, service
     function filterPrenotazioni(inputText) {
         //al keyup filtra e mostra solo un sottinsieme delle prenotazioni
         var prenotazioniFiltrate = [];
+        var prenotazioniFiltrateSala = [];
+        var prenotazioniFiltrateUsername = [];
         var inputReg = new RegExp(inputText, "i"); //i = ignorecase
-        prenotazioniFiltrate = prenotazioni.filter(function (p) { return inputReg.test(p.NomeSala); }) && prenotazioni.filter(function (p) { return inputReg.test(p.UsernameRisorsa); });
+        //prenotazioniFiltrate = prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
+        prenotazioniFiltrateSala = prenotazioni.filter(function (p) { return inputReg.test(p.NomeSala); });
+        prenotazioniFiltrateUsername = prenotazioni.filter(function (p) { return inputReg.test(p.UsernameRisorsa); });
+        prenotazioniFiltrate = prenotazioniFiltrateSala.concat(prenotazioniFiltrateUsername.filter(function (item) { return prenotazioniFiltrateSala.indexOf(item) < 0; }));
+        //prenotazioniFiltrate = prenotazioniFiltrateSala.concat(prenotazioniFiltrateUsername);
         populatePrenotazioni(prenotazioniFiltrate);
     }
     exports.filterPrenotazioni = filterPrenotazioni;

@@ -28,13 +28,4 @@ define(["require", "exports"], function (require, exports) {
         return Prenotazione;
     }());
     exports.Prenotazione = Prenotazione;
-    var PrenotazioneFiltrata = /** @class */ (function () {
-        function PrenotazioneFiltrata() {
-        }
-        PrenotazioneFiltrata.prototype.forEach = function (arg0) {
-            throw new Error("Method not implemented.");
-        };
-        return PrenotazioneFiltrata;
-    }());
-    exports.PrenotazioneFiltrata = PrenotazioneFiltrata;
 });

@@ -27,23 +27,11 @@ export class Prenotazione {
     public ID_Risorsa: number;
     public ID_Sala: number;
     public NomeSala: string;
+    public NomeRisorsa: string;
+    public CognomeRisorsa: string;
+    public EmailRisorsa: string;
+
     public UsernameRisorsa: string;
-    public Descrizione: string;
-    public DataInizioPrenotazione: number;
-    public DataFinePrenotazione: string;
-}
-export class PrenotazioneFiltrata {
-    forEach(arg0: (element: any) => void) {
-        throw new Error("Method not implemented.");
-    }
-    public ID_Prenotazione: number;
-    public ID_Risorsa: number;
-    public ID_Sala: number;
-    public nomeSala: string;
-    public nomeRisorsa: string;
-    public cognomeRisorsa: string;
-    public usernameRisorsa: string;
-    public emailRisorsa: string;
     public Descrizione: string;
     public DataInizioPrenotazione: number;
     public DataFinePrenotazione: string;

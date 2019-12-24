@@ -2,7 +2,6 @@ import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
 import { populateUsernames, populateSale, populateEdificiNames } from "./index";
 import { populateRisorse } from "./risorse";
 import { populateEdifici } from "./edifici";
-import { populatePrenotazioni } from "./prenotazioni";
 //import { populateUsernames, populateEdifici, populateSale } from "./index";
 
 //#region Variables
