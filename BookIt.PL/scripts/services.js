@@ -1,14 +1,14 @@
-define(["require", "exports", "./index", "./risorse", "./edifici"], function (require, exports, index_1, risorse_1, edifici_1) {
+define(["require", "exports", "./risorse", "./edifici"], function (require, exports, risorse_1, edifici_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //import { populateUsernames, populateEdifici, populateSale } from "./index";
     //#region Variables
-    var webApiUri = 'http://localhost:60398/api';
+    const webApiUri = 'http://localhost:60398/api';
     //#endregion
     function getAllUsersCanBook() {
         $.getJSON(webApiUri + '/User/GetAllUsersCanBook')
-            .done(function (risorse) {
-            index_1.populateUsernames(risorse);
+            .done((risorse) => {
+            //ViewIndex.populateUsernames(risorse);
         })
             .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
@@ -17,8 +17,8 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     exports.getAllUsersCanBook = getAllUsersCanBook;
     function getAllEdificiNames() {
         $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-            .done(function (edifici) {
-            index_1.populateEdificiNames(edifici);
+            .done((edifici) => {
+            //ViewIndex.populateEdificiNames(edifici);
         })
             .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
@@ -44,7 +44,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     // }
     function getAllRisorse() {
         return $.getJSON(webApiUri + '/User/GetAllUsers')
-            .done(function (risorse) {
+            .done((risorse) => {
             risorse_1.populateRisorse(risorse);
         })
             .fail(function (jqXHR, textStatus, err) {
@@ -57,8 +57,8 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
             type: "GET",
             url: webApiUri + '/Sala/GetAllSaleByEdificio/' + id,
             contentType: 'application/json',
-        }).done(function (sale) {
-            index_1.populateSale(sale);
+        }).done((sale) => {
+            //View.populateSale(sale);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("An error occurred while creating UserTitle");
         });
@@ -66,7 +66,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     exports.getAllSaleByEdificio = getAllSaleByEdificio;
     function getAllEdifici() {
         $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-            .done(function (edifici) {
+            .done((edifici) => {
             console.log(edifici);
             edifici_1.populateEdifici(edifici);
         })
@@ -84,7 +84,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     }
     exports.getAllPrenotazioni = getAllPrenotazioni;
     function creaRisorsa() {
-        var p = {
+        let p = {
             Cognome: $("#cognome").val(),
             Nome: $("#nome").val(),
         };
@@ -102,7 +102,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     }
     exports.creaRisorsa = creaRisorsa;
     function creaEdificio() {
-        var p = {
+        let p = {
             Nome: $("#nomeEdificio").val(),
             Indirizzo: $("#indirizzoEdificio").val(),
             Stato: $("#disponibilitaEdificio").val(),
@@ -169,7 +169,7 @@ define(["require", "exports", "./index", "./risorse", "./edifici"], function (re
     }
     exports.deletePrenotazione = deletePrenotazione;
     function doPrenotazione() {
-        var p = {
+        let p = {
             ID_Risorsa: $("#selectUsername").find(":selected").val(),
             ID_Sala: $("#selectSala").find(":selected").val(),
             Descrizione: $("#descrizione").val(),

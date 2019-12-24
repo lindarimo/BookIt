@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "amd",
     "strict": true,  
-    "strictPropertyInitialization": false                         
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+      "paths": {
+        "moment": ["node_modules/moment/moment"] // This mapping is relative to "baseUrl"
+    }
   },
 
 }

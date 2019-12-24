@@ -1,5 +1,4 @@
 import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
-import { populateUsernames, populateSale, populateEdificiNames } from "./index";
 import { populateRisorse } from "./risorse";
 import { populateEdifici } from "./edifici";
 //import { populateUsernames, populateEdifici, populateSale } from "./index";
@@ -11,7 +10,7 @@ const webApiUri: string = 'http://localhost:60398/api';
 export function getAllUsersCanBook() {
     $.getJSON(webApiUri + '/User/GetAllUsersCanBook')
         .done((risorse: Risorsa[]) => {
-            populateUsernames(risorse);
+            //ViewIndex.populateUsernames(risorse);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
@@ -21,7 +20,7 @@ export function getAllUsersCanBook() {
 export function getAllEdificiNames() {
     $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
         .done((edifici: Edificio[]) => {
-            populateEdificiNames(edifici);
+            //ViewIndex.populateEdificiNames(edifici);
         })
         .fail(function (jqXHR, textStatus, err) {
             alert('Errore durante l estrazione delle risorse!');
@@ -61,7 +60,7 @@ export function getAllSaleByEdificio(id: any) {
         url: webApiUri + '/Sala/GetAllSaleByEdificio/' + id,
         contentType: 'application/json',
     }).done((sale: Sala[]) => {
-        populateSale(sale);
+        //View.populateSale(sale);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alert("An error occurred while creating UserTitle");
     });
@@ -79,11 +78,11 @@ export function getAllEdifici() {
         );
 }
 export function getAllSale(): JQuery.jqXHR<Sala[]> {
-    return $.getJSON(webApiUri + '/Sala/GetAllSale')
+    return $.getJSON(webApiUri + '/Sala/GetAllSale');
 }
 
 export function getAllPrenotazioni(): JQuery.jqXHR<Prenotazione[]> {
-    return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni')
+    return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni');
 }
 export function creaRisorsa(): void {
     let p = {

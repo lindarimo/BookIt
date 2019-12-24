@@ -13,9 +13,6 @@ export class Edificio {
     public Stato: string;
 }
 export class Sala {
-    forEach(arg0: (sala: any) => void) {
-        throw new Error("Method not implemented.");
-    }
     public ID_Sala: number;
     public ID_Edificio: number;
     public Nome: string;
@@ -33,6 +30,6 @@ export class Prenotazione {
 
     public UsernameRisorsa: string;
     public Descrizione: string;
-    public DataInizioPrenotazione: number;
-    public DataFinePrenotazione: string;
+    public DataInizioPrenotazione: Date;
+    public DataFinePrenotazione: Date;
 }

@@ -1,7 +1,7 @@
 define(["require", "exports", "./services"], function (require, exports, services_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    $(document).ready(function () {
+    $(document).ready(() => {
         console.log("loaded");
         services_1.getAllSale();
     });

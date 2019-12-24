@@ -1,3 +1,3 @@
-require.config({
-    basePath: "/scripts",
-  });
+// require.config({
+//     basePath: "/scripts",
+//   });
