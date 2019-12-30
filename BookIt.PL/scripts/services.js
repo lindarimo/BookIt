@@ -1,4 +1,4 @@
-define(["require", "exports", "./risorse", "./edifici"], function (require, exports, risorse_1, edifici_1) {
+define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //import { populateUsernames, populateEdifici, populateSale } from "./index";
@@ -6,73 +6,19 @@ define(["require", "exports", "./risorse", "./edifici"], function (require, expo
     const webApiUri = 'http://localhost:60398/api';
     //#endregion
     function getAllUsersCanBook() {
-        $.getJSON(webApiUri + '/User/GetAllUsersCanBook')
-            .done((risorse) => {
-            //ViewIndex.populateUsernames(risorse);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle risorse!');
-        });
+        return $.getJSON(webApiUri + '/User/GetAllUsersCanBook');
     }
     exports.getAllUsersCanBook = getAllUsersCanBook;
-    function getAllEdificiNames() {
-        $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-            .done((edifici) => {
-            //ViewIndex.populateEdificiNames(edifici);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle risorse!');
-        });
-    }
-    exports.getAllEdificiNames = getAllEdificiNames;
-    // export function getAllSaleNames(): Array<string> {
-    //     var saleArray: Array<string> = [];
-    //     $.getJSON(webApiUri + '/Sala/GetAllSale')
-    //         .done((sale: Sala[]) => {
-    //             $.each(sale, (key, item: Sala) => {
-    //                 saleArray.push(item.Nome);
-    //             })
-    //             console.log(saleArray);
-    //             //console.log(risorse);
-    //             populateSale(saleArray);
-    //         })
-    //         .fail(function (jqXHR, textStatus, err) {
-    //             alert('Errore durante l estrazione delle risorse!');
-    //         }
-    //         );
-    //     return saleArray;
-    // }
     function getAllRisorse() {
-        return $.getJSON(webApiUri + '/User/GetAllUsers')
-            .done((risorse) => {
-            risorse_1.populateRisorse(risorse);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione delle risorse!');
-        });
+        return $.getJSON(webApiUri + '/User/GetAllUsers');
     }
     exports.getAllRisorse = getAllRisorse;
     function getAllSaleByEdificio(id) {
-        $.ajax({
-            type: "GET",
-            url: webApiUri + '/Sala/GetAllSaleByEdificio/' + id,
-            contentType: 'application/json',
-        }).done((sale) => {
-            //View.populateSale(sale);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("An error occurred while creating UserTitle");
-        });
+        return $.getJSON(webApiUri + '/Sala/GetAllSaleByEdificio/' + id);
     }
     exports.getAllSaleByEdificio = getAllSaleByEdificio;
     function getAllEdifici() {
-        $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-            .done((edifici) => {
-            console.log(edifici);
-            edifici_1.populateEdifici(edifici);
-        })
-            .fail(function (jqXHR, textStatus, err) {
-            alert('Errore durante l estrazione degli edifici!');
-        });
+        return $.getJSON(webApiUri + '/Edificio/GetAllEdifici');
     }
     exports.getAllEdifici = getAllEdifici;
     function getAllSale() {
@@ -141,20 +87,6 @@ define(["require", "exports", "./risorse", "./edifici"], function (require, expo
         return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);
     }
     exports.getRisorsa = getRisorsa;
-    function creaSala() {
-        var p = { ID_Edificio: 1, Nome: "bella sala", NumeroPostiDisponibili: 6, Stato: "Prenotabile" };
-        $.ajax({
-            type: "POST",
-            url: webApiUri + '/Sala/PostSala',
-            contentType: 'application/json',
-            data: JSON.stringify(p),
-        }).done(function (data) {
-            console.log(JSON.stringify(data));
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("An error occurred while creating UserTitle");
-        });
-    }
-    exports.creaSala = creaSala;
     function deletePrenotazione() {
         var id = 1;
         $.ajax({
@@ -168,6 +100,25 @@ define(["require", "exports", "./risorse", "./edifici"], function (require, expo
         });
     }
     exports.deletePrenotazione = deletePrenotazione;
+    function creaSala() {
+        let p = {
+            ID_Edificio: $("#selectEdificio").find(":selected").val(),
+            Nome: $("#nomeSala").val(),
+            NumeroPostiDisponibili: $("#postiSala").val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: webApiUri + '/Sala/PostSala',
+            contentType: 'application/json',
+            data: JSON.stringify(p),
+        }).done(function (data) {
+            alert("Sala inserita correttamente!");
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    }
+    exports.creaSala = creaSala;
     function doPrenotazione() {
         let p = {
             ID_Risorsa: $("#selectUsername").find(":selected").val(),

@@ -1,4 +1,4 @@
-define(["require", "exports", "./services", "moment"], function (require, exports, services_1, moment) {
+define(["require", "exports", "./services", "moment", "./index"], function (require, exports, services_1, moment, index_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class ViewPrenotazioni {
@@ -8,18 +8,61 @@ define(["require", "exports", "./services", "moment"], function (require, export
                 console.log("loaded");
                 let inputText = $('input[type="text"]').val();
                 this.searchPrenotazioni();
+                this.populateUsernames();
+                this.prenotazioneModal();
                 $("#myInput").keyup(() => {
                     inputText = $('input[type="text"]').val();
                     this.filterPrenotazioni(inputText);
                 });
             });
+            $("#creaPrenotazione").click(function (event) {
+                var _a;
+                event.preventDefault();
+                let descrizione = (_a = $("#descrizione").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
+                let selectUsername = $("#selectUsername").val();
+                let selectEdificio = $("#selectEdificio").val();
+                let selectSala = $("#selectSala").val();
+                if (descrizione && selectUsername && selectEdificio && selectSala) {
+                    index_1.ViewIndex.regex.test(descrizione) ? services_1.doPrenotazione() : alert("Non puoi inserire caratteri speciali.");
+                }
+                else {
+                    alert("Compila tutti i campi!");
+                    event.stopPropagation();
+                }
+            });
         }
         /**
-         * getAllPrenotazioniView
+         * prenotazioneModal
          */
-        getAllPrenotazioniView() {
-            $("#getAllPrenotazioni").click(function () {
-                services_1.getAllPrenotazioni();
+        prenotazioneModal() {
+            $("#selectUsername").on("change", function () {
+                $(".selectDefault").prop('disabled', true);
+            });
+            $("#selectEdificio").on("change", function () {
+                var _a;
+                $('.salaItem').remove();
+                $("#selectSala").removeAttr('disabled');
+                $(".selectDefault").prop('disabled', true);
+                let a = ((_a = $("#selectEdificio").val()) === null || _a === void 0 ? void 0 : _a.toString()) || '';
+                services_1.getAllSaleByEdificio(parseInt(a)).then(saleResponse => {
+                    $.each(saleResponse, (key, item) => {
+                        $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
+                    });
+                });
+            });
+            $("#bookDateStart").on("change", function () {
+                let initDate = $("#bookDateStart").val();
+                console.log(initDate);
+                $("#bookDateEnd").removeAttr('disabled');
+                $("#bookDateEnd").attr("min", initDate);
+            });
+            $("#bookDateEnd").focusout(function () {
+                let initDate = $("#bookDateStart").val();
+                let endDate = $("#bookDateEnd").val();
+                if (initDate && endDate && initDate >= endDate) {
+                    alert("Attenzione! La data e l'ora di inizio devono essere antecedenti alla data e ora di fine prenotazione!");
+                    $("#bookDateEnd").val("");
+                }
             });
         }
         /**
@@ -74,12 +117,19 @@ define(["require", "exports", "./services", "moment"], function (require, export
         populatePrenotazioni(prenotazioni) {
             $(".prenotazioniTbody").empty();
             $.each(prenotazioni, (key, prenotazione) => {
-                $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + '</td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + '</td><td></td><td></td></tr>');
-                $(".prenotazioniTbody").append('<tr><td>' + prenotazione.CognomeRisorsa + '</td><td>' + prenotazione.NomeRisorsa + '</td><td>' + prenotazione.UsernameRisorsa + '</td><td>' + prenotazione.EmailRisorsa + '</td><td>' + prenotazione.Descrizione + '</td></tr>');
+                $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
+                $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger">Elimina</button></td></tr>');
             });
             $('.prenotazioniTr').click(function () {
                 $(this).nextUntil('.prenotazioniTr').toggleClass('hide');
             }).click();
+        }
+        populateUsernames() {
+            services_1.getAllUsersCanBook().then(usersResponse => {
+                $.each(usersResponse, (key, item) => {
+                    $('#selectUsername').append(`<option name = "${item.Username}" value = "${item.ID}"> ${item.Username}</option>`);
+                });
+            });
         }
     }
     exports.ViewPrenotazioni = ViewPrenotazioni;

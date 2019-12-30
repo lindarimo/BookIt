@@ -1,3 +1,15 @@
 
 .hide { display: none; }
 .dettagli { float: right; }
+th.firstTh { width: 20%; }
+th.otherTh { width: 25%; }
+body {font-size: small; }
+h2 { color: #eb212e; }
+.prenotazioniTr { background-color: #e9ecef;}
+.redText {color: #eb212e;}
+.btn-danger { background-color: #eb212e; font-size: small; padding: 5px 10px;}
+.btn { font-size: small; padding: 5px 10px; }
+.logo { float: left; padding-left: 2%; padding-top: 2%;}
+.logo img { width: 50%;}
+.copertina { background-image: url("../img/sala.jpg"); background-position: center;
+    background-repeat: no-repeat;}

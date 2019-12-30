@@ -14,7 +14,6 @@
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
     <link href="CSS/index.css" rel="stylesheet">
 
     <script data-main="scripts/app" src="scripts/require.js"></script>
@@ -22,11 +21,18 @@
 </head>
 
 <body>
+    
+        <div class ="logo">
+            <img src="img/logo.png">
+        </div>
+    </div>
 
-
-    <div class="jumbotron text-center" style="margin-bottom:0">
-        <h1>BookIt</h1>
-        <p>Prenota una sala e gestisci le tue prenotazioni!!</p>
+    <div class="jumbotron copertina" style="margin-bottom:0">
+        <div style="text-align: center;">
+            <h1>BookIt</h1>
+            <p>Prenota una sala e gestisci le tue prenotazioni!!</p>
+        </div>
+        
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a class="navbar-brand" href="index.html">BookIt</a>
@@ -65,16 +71,16 @@
             <div class="col-sm-8">
                 <h2>Tutte le prenotazioni in corso:</h2>
                 <hr>
-                <table id="prenotazioniTable" style="display: block;">
-                    <thead>
-                        <th>Sala</th>
-                        <th>Data inizio</th>
-                        <th>Data fine</th>
-
+                <table id="prenotazioniTable" class="table table-hover">
+                    <thead class="header">
+                        <tr>
+                            <th class="firstTh">Sala</th>
+                            <th class="otherTh">Data inizio</th>
+                            <th class="otherTh">Data fine</th>
+                        </tr>
                     </thead>
                     <!--number 1-->
                     <tbody class="prenotazioniTbody">
-
                     </tbody>
                 </table>
             </div>
@@ -84,39 +90,4 @@
     <div class="jumbotron text-center" style="margin-bottom:0">
         <p>Footer</p>
     </div>
-
-
-    <div>
-        <a href="risorse.html">Elenco di tutte le risorse</a><br>
-        <a href="edifici.html">Elenco di tutti gli edifici</a><br>
-        <a href="sale.html">Elenco di tutte le sale</a><br>
-        <a href="prenotazioni.html">Elenco di tutte le prenotazioni</a><br>
-
-        <button onclick="getAllPrenotazioni();">getAll Prenotazioni</button>
-
-        <button onclick="deletePrenotazione();">Cancella Prenotazione</button>
-
-    </div>
-    <hr>
-    <form id="prenotazioneForm">
-        <select id="selectUsername" required>
-            <option value="">Seleziona un utente</option>
-        </select>
-        <select id="selectEdificio" required>
-            <option value="" class="selectDefault">Seleziona un edificio</option>
-        </select>
-        <select id="selectSala" required disabled>
-            <option value="">Seleziona una sala</option>
-        </select>
-        Data inizio prenotazione:
-        <input id="bookDateStart" type="datetime-local" min="2019-12-01T00:00" max="2019-12-20T00:00" step="1800"
-            required />
-        Data fine prenotazione:
-        <input id="bookDateEnd" type="datetime-local" required disabled />
-
-        <input type="text" id="descrizione" required>
-
-        <button value="Prenota" id="creaPrenotazione">Prenota</button>
-    </form>
-    <hr>
 </body>

@@ -11,6 +11,7 @@ export class Edificio {
     public Nome: string;
     public Indirizzo: string;
     public Stato: string;
+    public Sale: Sala[];
 }
 export class Sala {
     public ID_Sala: number;
@@ -18,6 +19,7 @@ export class Sala {
     public Nome: string;
     public NumeroPostiDisponibili: number;
     public Stato: string;
+    public NomeEdificio: string;
 }
 export class Prenotazione {
     public ID_Prenotazione: number;
@@ -27,7 +29,6 @@ export class Prenotazione {
     public NomeRisorsa: string;
     public CognomeRisorsa: string;
     public EmailRisorsa: string;
-
     public UsernameRisorsa: string;
     public Descrizione: string;
     public DataInizioPrenotazione: Date;

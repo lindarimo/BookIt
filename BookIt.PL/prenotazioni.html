@@ -24,26 +24,110 @@
 </head>
 
 <body>
-    <button id="getAllPrenotazioni">getAll Prenotazioni</button>
-    <div class="jumbotron jumbo">
-        <div style="margin-bottom:15px">
-            <form class="form-inline">
-                <input type="text" id="myInput" placeholder="Cerca per nome sala" val="">
-            </form>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="index.html">BookIt</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="risorse.html">Risorse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="prenotazioni.html">Prenotazioni</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="edifici.html">Edifici</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" style="margin-top:30px">
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <h2>Tutte le prenotazioni:</h2>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#risorsaModal">Crea
+                            una
+                            nuova prenotazione</button>
+
+                        <!-- Modal -->
+                        <div id="risorsaModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Crea una nuova prenotazione</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <form id="prenotazioneForm">
+                                        <div class="modal-body">
+
+                                            <select id="selectUsername" required>
+                                                <option value="" class="selectDefault">Seleziona un utente</option>
+                                            </select>
+                                            <select id="selectEdificio" required>
+                                                <option value="" class="selectDefault">Seleziona un edificio</option>
+                                            </select>
+                                            <select id="selectSala" required disabled>
+                                                <option value=""  class="selectDefault">Seleziona una sala</option>
+                                            </select>
+                                            Data inizio prenotazione:
+                                            <input id="bookDateStart" type="datetime-local" min="2019-12-01T00:00"
+                                                max="2019-12-20T00:00" step="1800" required />
+                                            Data fine prenotazione:
+                                            <input id="bookDateEnd" type="datetime-local" required disabled />
+                                            Inserisci una descrizione:
+                                            <textarea  type="text" id="descrizione" required></textarea>    
+                                               
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button value="Prenota" class="btn btn-default"
+                                                id="creaPrenotazione">Prenota</button>
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                <table id="prenotazioniTable" class="table table-hover">
+                    <thead class="header">
+                        <tr>
+                            <th class="firstTh">Sala</th>
+                            <th class="otherTh">Data inizio</th>
+                            <th class="otherTh">Data fine</th>
+                        </tr>
+                    </thead>
+                    <!--number 1-->
+                    <tbody class="prenotazioniTbody">
+                    </tbody>
+                </table>
+            </div>
+            </div>
         </div>
     </div>
 
-    <table id="prenotazioniTable" style="display: block;">
-        <tr class="header">
-            <th>Sala</th>
-            <th>Data inizio</th>
-            <th>Data fine</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <!--number 1-->
-        <tbody class="prenotazioniTbody">
-
-        </tbody>
-    </table>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <p>Footer</p>
+    </div>
 </body>
