@@ -31,6 +31,7 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
                 }
             });
         }
+        ;
         /**
          * prenotazioneModal
          */
@@ -118,12 +119,18 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
             $(".prenotazioniTbody").empty();
             $.each(prenotazioni, (key, prenotazione) => {
                 $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
-                $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger">Elimina</button></td></tr>');
+                $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
             });
             $('.prenotazioniTr').click(function () {
                 $(this).nextUntil('.prenotazioniTr').toggleClass('hide');
             }).click();
+            $(".eliminaPrenotazione").click(function () {
+                if (confirm('Stai per eliminare una prenotazione. Vuoi procedere?')) {
+                    services_1.deletePrenotazione(parseInt(this.id));
+                }
+            });
         }
+        ;
         populateUsernames() {
             services_1.getAllUsersCanBook().then(usersResponse => {
                 $.each(usersResponse, (key, item) => {
@@ -131,6 +138,7 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
                 });
             });
         }
+        ;
     }
     exports.ViewPrenotazioni = ViewPrenotazioni;
 });

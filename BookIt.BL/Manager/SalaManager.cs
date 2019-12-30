@@ -1,4 +1,5 @@
-﻿using BookIt.DAL;
+﻿using BookIt.Common;
+using BookIt.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
 
@@ -45,7 +46,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
 
@@ -68,7 +69,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
 
@@ -93,7 +94,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
         }

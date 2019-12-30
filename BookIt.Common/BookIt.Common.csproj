@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B93AE6A-2EA0-4B04-B777-17C7C83B7870}</ProjectGuid>
+    <ProjectGuid>{50EEFCA9-4216-446E-B0E4-DC4BCD46B644}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BookIt.BL</RootNamespace>
-    <AssemblyName>BookIt.BL</AssemblyName>
+    <RootNamespace>BookIt.Common</RootNamespace>
+    <AssemblyName>BookIt.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -44,21 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Manager\EdificioManager.cs" />
-    <Compile Include="Manager\PrenotazioneManager.cs" />
-    <Compile Include="Manager\RisorsaManager.cs" />
-    <Compile Include="Manager\SalaManager.cs" />
+    <Compile Include="LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BookIt.Common\BookIt.Common.csproj">
-      <Project>{50EEFCA9-4216-446E-B0E4-DC4BCD46B644}</Project>
-      <Name>BookIt.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BookIt.DAL\BookIt.DAL.csproj">
-      <Project>{D804D316-73AC-4929-9252-186F9B0EB598}</Project>
-      <Name>BookIt.DAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

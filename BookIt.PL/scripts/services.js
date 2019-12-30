@@ -87,14 +87,15 @@ define(["require", "exports"], function (require, exports) {
         return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);
     }
     exports.getRisorsa = getRisorsa;
-    function deletePrenotazione() {
-        var id = 1;
+    function deletePrenotazione(id) {
         $.ajax({
             type: "DELETE",
             url: webApiUri + '/Prenotazione/DeletePrenotazione/?id=' + id,
             contentType: 'application/json',
         }).done(function (data) {
             console.log(JSON.stringify(data));
+            alert("Hai eliminato la prenotazione!");
+            location.reload();
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("An error occurred while creating UserTitle");
         });
@@ -120,12 +121,19 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.creaSala = creaSala;
     function doPrenotazione() {
+        // let p = {
+        //     ID_Risorsa: $("#selectUsername").find(":selected").val(),
+        //     ID_Sala: $("#selectSala").find(":selected").val(),
+        //     Descrizione: $("#descrizione").val(),
+        //     DataInizioPrenotazione: $("#bookDateStart").val(),
+        //     DataFinePrenotazione: $("#bookDateEnd").val()
+        // };
         let p = {
-            ID_Risorsa: $("#selectUsername").find(":selected").val(),
-            ID_Sala: $("#selectSala").find(":selected").val(),
-            Descrizione: $("#descrizione").val(),
-            DataInizioPrenotazione: $("#bookDateStart").val(),
-            DataFinePrenotazione: $("#bookDateEnd").val()
+            ID_Risorsa: 2,
+            ID_Sala: 1,
+            Descrizione: "fdfd",
+            DataInizioPrenotazione: "2019-12-03 00:38",
+            DataFinePrenotazione: "2019-12-04 00:38"
         };
         $.ajax({
             type: "POST",

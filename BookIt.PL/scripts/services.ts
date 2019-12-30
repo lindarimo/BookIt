@@ -76,21 +76,22 @@ export function aggiornaRisorsa(id: number): void {
     });
 }
 export function getSala(id: number): JQuery.jqXHR<Sala> {
-    return $.getJSON(webApiUri + '/Sala/GetSala/?id=' + id);  
+    return $.getJSON(webApiUri + '/Sala/GetSala/?id=' + id);
 }
 
 export function getRisorsa(id: number): JQuery.jqXHR<Risorsa> {
-    return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);  
+    return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);
 }
 
-export function deletePrenotazione(): void {
-    var id = 1;
+export function deletePrenotazione(id: number): void {
     $.ajax({
         type: "DELETE",
         url: webApiUri + '/Prenotazione/DeletePrenotazione/?id=' + id,
         contentType: 'application/json',
     }).done(function (data) {
         console.log(JSON.stringify(data));
+        alert("Hai eliminato la prenotazione!");
+        location.reload();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alert("An error occurred while creating UserTitle");
     });
@@ -100,7 +101,7 @@ export function creaSala(): void {
         ID_Edificio: $("#selectEdificio").find(":selected").val(),
         Nome: $("#nomeSala").val(),
         NumeroPostiDisponibili: $("#postiSala").val(),
-    };    
+    };
     $.ajax({
         type: "POST",
         url: webApiUri + '/Sala/PostSala',
@@ -114,12 +115,19 @@ export function creaSala(): void {
     });
 }
 export function doPrenotazione() {
+    // let p = {
+    //     ID_Risorsa: $("#selectUsername").find(":selected").val(),
+    //     ID_Sala: $("#selectSala").find(":selected").val(),
+    //     Descrizione: $("#descrizione").val(),
+    //     DataInizioPrenotazione: $("#bookDateStart").val(),
+    //     DataFinePrenotazione: $("#bookDateEnd").val()
+    // };
     let p = {
-        ID_Risorsa: $("#selectUsername").find(":selected").val(),
-        ID_Sala: $("#selectSala").find(":selected").val(),
-        Descrizione: $("#descrizione").val(),
-        DataInizioPrenotazione: $("#bookDateStart").val(),
-        DataFinePrenotazione: $("#bookDateEnd").val()
+        ID_Risorsa: 2,
+        ID_Sala: 1,
+        Descrizione: "fdfd",
+        DataInizioPrenotazione: "2019-12-03 00:38",
+        DataFinePrenotazione: "2019-12-04 00:38"
     };
     $.ajax({
         type: "POST",

@@ -1,4 +1,5 @@
-﻿using BookIt.DAL;
+﻿using BookIt.Common;
+using BookIt.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
 
@@ -50,7 +51,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
 
@@ -77,14 +78,13 @@ namespace BookIt.BL.Manager
                 if (count == 0)
                 {
                     result = repo.Add(prenotazione);
+                    DAL.GlobalUnitOfWork.Commit();
                     return true;
                 }
-
-                DAL.GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
             return false;
@@ -131,7 +131,7 @@ namespace BookIt.BL.Manager
             }
             catch (Exception ex)
             {
-                ///LogManager.Error(ex);
+                LogManager.Error(ex);
                 throw ex;
             }
         }

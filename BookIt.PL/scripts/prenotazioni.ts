@@ -1,4 +1,4 @@
-import { getAllPrenotazioni, getRisorsa, getAllRisorse, getAllUsersCanBook, getSala, getAllSale, getAllSaleByEdificio, doPrenotazione } from "./services";
+import { getAllPrenotazioni, getRisorsa, getAllRisorse, getAllUsersCanBook, getSala, getAllSale, getAllSaleByEdificio, doPrenotazione, deletePrenotazione } from "./services";
 import { Prenotazione, Risorsa, Sala } from "./model";
 import * as moment from "moment";
 import { ViewIndex } from "./index";
@@ -16,6 +16,7 @@ export class ViewPrenotazioni {
                 inputText = <string>$('input[type="text"]').val();
                 this.filterPrenotazioni(inputText);
             });
+
         });
         $("#creaPrenotazione").click(function (event) {
             event.preventDefault();
@@ -24,18 +25,19 @@ export class ViewPrenotazioni {
             let selectEdificio = $("#selectEdificio").val();
             let selectSala = $("#selectSala").val();
             if (descrizione && selectUsername && selectEdificio && selectSala) {
-                ViewIndex.regex.test(descrizione) ? doPrenotazione() : alert("Non puoi inserire caratteri speciali.");       
+                ViewIndex.regex.test(descrizione) ? doPrenotazione() : alert("Non puoi inserire caratteri speciali.");
             } else {
                 alert("Compila tutti i campi!");
                 event.stopPropagation();
             }
         });
-    }
+
+    };
     /**
      * prenotazioneModal
      */
     public prenotazioneModal() {
-        $("#selectUsername").on("change", function() {
+        $("#selectUsername").on("change", function () {
             $(".selectDefault").prop('disabled', true);
         });
         $("#selectEdificio").on("change", function () {
@@ -63,6 +65,7 @@ export class ViewPrenotazioni {
                 $("#bookDateEnd").val("");
             }
         });
+
     }
 
     /**
@@ -116,18 +119,23 @@ export class ViewPrenotazioni {
         $(".prenotazioniTbody").empty();
 
         $.each(prenotazioni, (key, prenotazione: Prenotazione) => {
-            $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY")+ ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
-            $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger">Elimina</button></td></tr>');
+            $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
+            $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
         })
         $('.prenotazioniTr').click(function () {
             $(this).nextUntil('.prenotazioniTr').toggleClass('hide');
         }).click();
-    }
+        $(".eliminaPrenotazione").click(function () {
+            if (confirm('Stai per eliminare una prenotazione. Vuoi procedere?')) {
+                deletePrenotazione(parseInt(this.id));
+            }
+        });
+    };
     public populateUsernames() {
         getAllUsersCanBook().then(usersResponse => {
             $.each(usersResponse, (key, item: Risorsa) => {
                 $('#selectUsername').append(`<option name = "${item.Username}" value = "${item.ID}"> ${item.Username}</option>`)
             });
         })
-    }
+    };
 }
