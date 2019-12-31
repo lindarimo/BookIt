@@ -5,11 +5,34 @@ th.firstTh { width: 20%; }
 th.otherTh { width: 25%; }
 body {font-size: small; }
 h2 { color: #eb212e; }
-.prenotazioniTr { background-color: #e9ecef;}
 .redText {color: #eb212e;}
-.btn-danger { background-color: #eb212e; font-size: small; padding: 5px 10px;}
+.eliminaPrenotazione { background-color: #eb212e; font-size: small; padding: 5px 10px;}
 .btn { font-size: small; padding: 5px 10px; }
 .logo { float: left; padding-left: 2%; padding-top: 2%;}
 .logo img { width: 50%;}
 .copertina { background-image: url("../img/sala.jpg"); background-position: center;
-    background-repeat: no-repeat;}
+    background-repeat: no-repeat; background-size: cover;}
+tr { cursor: pointer;}
+#myInput {width: 100%}
+.title { padding: 5%}
+.createButton { border-color: #eb212e; font-size: small; padding: 5px 10px; background-color: white; color: black;}
+.buttonDiv {display: flex; align-items: center; justify-content: flex-end;}
+.form-control:focus {
+    outline: none !important;
+    border:1px solid #dee2e6;
+    box-shadow: 0 0 10px #dee2e6;
+}
+.textDiv {padding: 2%;}
+.footer {
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 80px;
+    background-color: #f5f5f5;
+  }
+@media only screen and (min-width: 600px) {
+    table.table-striped { width: 70%}
+    .has-search { width: 70%;}
+    .tableDiv { display: flex; justify-content: center;}
+    .title { padding-left: 15%; padding-right: 15%;}
+}

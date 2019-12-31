@@ -45,19 +45,14 @@ export function creaRisorsa(): void {
         alert("An error occurred while creating UserTitle");
     });
 }
-export function creaEdificio(): void {
-    let p = {
-        Nome: $("#nomeEdificio").val(),
-        Indirizzo: $("#indirizzoEdificio").val(),
-        Stato: $("#disponibilitaEdificio").val(),
-    };
+export function creaEdificio(edificio: any): void {
     $.ajax({
         type: "POST",
         url: webApiUri + '/Edificio/PostEdificio',
         contentType: 'application/json',
-        data: JSON.stringify(p),
+        data: JSON.stringify(edificio),
     }).done(function (data) {
-        alert("Hai inserito correttamente il nuovo edificio " + p.Nome);
+        alert("Hai inserito correttamente il nuovo edificio " + data.Nome);
         location.reload();
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alert("An error occurred while creating UserTitle");
@@ -96,17 +91,12 @@ export function deletePrenotazione(id: number): void {
         alert("An error occurred while creating UserTitle");
     });
 }
-export function creaSala(): void {
-    let p = {
-        ID_Edificio: $("#selectEdificio").find(":selected").val(),
-        Nome: $("#nomeSala").val(),
-        NumeroPostiDisponibili: $("#postiSala").val(),
-    };
+export function creaSala(sala: any): void {
     $.ajax({
         type: "POST",
         url: webApiUri + '/Sala/PostSala',
         contentType: 'application/json',
-        data: JSON.stringify(p),
+        data: JSON.stringify(sala),
     }).done(function (data) {
         alert("Sala inserita correttamente!");
         location.reload();
@@ -115,13 +105,6 @@ export function creaSala(): void {
     });
 }
 export function doPrenotazione() {
-    // let p = {
-    //     ID_Risorsa: $("#selectUsername").find(":selected").val(),
-    //     ID_Sala: $("#selectSala").find(":selected").val(),
-    //     Descrizione: $("#descrizione").val(),
-    //     DataInizioPrenotazione: $("#bookDateStart").val(),
-    //     DataFinePrenotazione: $("#bookDateEnd").val()
-    // };
     let p = {
         ID_Risorsa: 2,
         ID_Sala: 1,

@@ -87,7 +87,6 @@ namespace BookIt.BL.Manager
 
             try
             {
-                sala.Stato = "Prenotabile";
                 repo = new DAL.Repository.SalaRepository();
                 result = repo.Add(sala);
                 DAL.GlobalUnitOfWork.Commit();

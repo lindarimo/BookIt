@@ -32,12 +32,12 @@ export class ViewRisorse {
     public searchRisorse() {
         getAllRisorse().then(risorseResponse => {
             $.each(risorseResponse, (key, item: Risorsa) => {
-                $(".risorseTbody").append('<tr class= "risorseTr"><td class="cognome">' + item.Cognome + '</td><td class="nome">' + item.Nome + '</td><td></td><td></td></tr>');
+                $(".risorseTbody").append('<tr class= "risorseTr"><td class="cognome">' + item.Cognome + '</td><td class="nome">' + item.Nome + '</td></tr>');
                 if (item.FlagPrenotazione == false) {
-                    $(".risorseTbody").append('<tr><td>' + item.Username + '</td><td>' + item.Email + '</td><td>' + item.FlagPrenotazione + '</td><td><button class="flagPrenotazioneButton" id="' + item.ID + '">Abilita utente alla prenotazione</button></td></tr>');
+                    $(".risorseTbody").append('<tr class = "dettagliTable"><td colspan="2"><b>Username: </b>' + item.Username + '<br><b>Email: </b>' + item.Email + '<br><div class="text-center redText textDiv">Utente non abilitato alla prenotazione</div><div class="text-center textDiv"><button class="flagPrenotazioneButton btn btn-danger createButton" id="' + item.ID + '">Abilita</button></div></td></tr>');
                 }
                 else {
-                    $(".risorseTbody").append('<tr><td>' + item.Username + '</td><td>' + item.Email + '</td><td>' + item.FlagPrenotazione + '</td><td></td></tr>');
+                    $(".risorseTbody").append('<tr class = "dettagliTable"><td colspan="2"><b>Username: </b>' + item.Username + '<br><b>Email: </b>' + item.Email + '<br><div class="text-center textDiv">Utente abilitato alla prenotazione</div></td></tr>');
                 }
             });
             $('.risorseTr').click(function () {

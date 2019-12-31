@@ -47,19 +47,14 @@ define(["require", "exports"], function (require, exports) {
         });
     }
     exports.creaRisorsa = creaRisorsa;
-    function creaEdificio() {
-        let p = {
-            Nome: $("#nomeEdificio").val(),
-            Indirizzo: $("#indirizzoEdificio").val(),
-            Stato: $("#disponibilitaEdificio").val(),
-        };
+    function creaEdificio(edificio) {
         $.ajax({
             type: "POST",
             url: webApiUri + '/Edificio/PostEdificio',
             contentType: 'application/json',
-            data: JSON.stringify(p),
+            data: JSON.stringify(edificio),
         }).done(function (data) {
-            alert("Hai inserito correttamente il nuovo edificio " + p.Nome);
+            alert("Hai inserito correttamente il nuovo edificio " + data.Nome);
             location.reload();
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("An error occurred while creating UserTitle");
@@ -101,17 +96,12 @@ define(["require", "exports"], function (require, exports) {
         });
     }
     exports.deletePrenotazione = deletePrenotazione;
-    function creaSala() {
-        let p = {
-            ID_Edificio: $("#selectEdificio").find(":selected").val(),
-            Nome: $("#nomeSala").val(),
-            NumeroPostiDisponibili: $("#postiSala").val(),
-        };
+    function creaSala(sala) {
         $.ajax({
             type: "POST",
             url: webApiUri + '/Sala/PostSala',
             contentType: 'application/json',
-            data: JSON.stringify(p),
+            data: JSON.stringify(sala),
         }).done(function (data) {
             alert("Sala inserita correttamente!");
             location.reload();
@@ -121,13 +111,6 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.creaSala = creaSala;
     function doPrenotazione() {
-        // let p = {
-        //     ID_Risorsa: $("#selectUsername").find(":selected").val(),
-        //     ID_Sala: $("#selectSala").find(":selected").val(),
-        //     Descrizione: $("#descrizione").val(),
-        //     DataInizioPrenotazione: $("#bookDateStart").val(),
-        //     DataFinePrenotazione: $("#bookDateEnd").val()
-        // };
         let p = {
             ID_Risorsa: 2,
             ID_Sala: 1,

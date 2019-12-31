@@ -47,7 +47,9 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
                 let a = ((_a = $("#selectEdificio").val()) === null || _a === void 0 ? void 0 : _a.toString()) || '';
                 services_1.getAllSaleByEdificio(parseInt(a)).then(saleResponse => {
                     $.each(saleResponse, (key, item) => {
-                        $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
+                        if (item.Stato === "Prenotabile") {
+                            $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
+                        }
                     });
                 });
             });
@@ -105,11 +107,9 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
             let prenotazioniFiltrateSala = [];
             let prenotazioniFiltrateUsername = [];
             let inputReg = new RegExp(inputText, "i"); //i = ignorecase
-            //prenotazioniFiltrate = prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
             prenotazioniFiltrateSala = this.prenotazioni.filter(p => inputReg.test(p.NomeSala));
             prenotazioniFiltrateUsername = this.prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
-            prenotazioniFiltrate = prenotazioniFiltrateSala.concat(prenotazioniFiltrateUsername);
-            this.populatePrenotazioni(prenotazioniFiltrate);
+            this.populatePrenotazioni([...new Set([...prenotazioniFiltrateSala, ...prenotazioniFiltrateUsername])]);
         }
         ;
         /**
@@ -119,7 +119,7 @@ define(["require", "exports", "./services", "moment", "./index"], function (requ
             $(".prenotazioniTbody").empty();
             $.each(prenotazioni, (key, prenotazione) => {
                 $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
-                $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
+                $(".prenotazioniTbody").append('<tr class = "dettagliTable"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
             });
             $('.prenotazioniTr').click(function () {
                 $(this).nextUntil('.prenotazioniTr').toggleClass('hide');

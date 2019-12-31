@@ -18,13 +18,19 @@ define(["require", "exports", "./services", "./index"], function (require, expor
                 $(".selectDefault").prop('disabled', true);
             });
             $("#creaSala").click(function (event) {
-                var _a, _b;
+                var _a, _b, _c;
                 event.preventDefault();
                 let edificio = (_a = $("#selectEdificio").val()) === null || _a === void 0 ? void 0 : _a.toString().trim();
                 let nomeSala = (_b = $("#nomeSala").val()) === null || _b === void 0 ? void 0 : _b.toString().trim();
                 let postiSala = $("#postiSala").val();
+                let sala = {
+                    ID_Edificio: $("#selectEdificio").find(":selected").val(),
+                    Nome: nomeSala,
+                    NumeroPostiDisponibili: postiSala,
+                    Stato: (_c = $("#statoSala").val()) === null || _c === void 0 ? void 0 : _c.toString().trim(),
+                };
                 if (edificio && nomeSala && postiSala) {
-                    index_1.ViewIndex.regex.test(edificio) && index_1.ViewIndex.regex.test(nomeSala) ? services_1.creaSala() : alert("Non puoi inserire caratteri speciali.");
+                    index_1.ViewIndex.regex.test(edificio) && index_1.ViewIndex.regex.test(nomeSala) ? services_1.creaSala(sala) : alert("Non puoi inserire caratteri speciali.");
                 }
                 else {
                     alert("Compila tutti i campi!");
@@ -55,7 +61,7 @@ define(["require", "exports", "./services", "./index"], function (require, expor
             console.log(sale);
             $.each(sale, (key, sala) => {
                 $(".saleTbody").append('<tr class= "saleTr"><td class="nomeSala">' + sala.Nome + '</td><td class="nomeEdificio">' + sala.NomeEdificio + '</td><td class="stato">' + sala.Stato + '</td></tr>');
-                $(".saleTbody").append('<tr><td class="numeroPostiDisponibili"><h6> Numero posti disponibili: </h6>' + sala.NumeroPostiDisponibili + '</td><td></td><td></td></tr>');
+                $(".saleTbody").append('<tr><td class="numeroPostiDisponibili" colspan="3"><h6> Numero posti disponibili: </h6>' + sala.NumeroPostiDisponibili + '</td></tr>');
             });
             $('.saleTr').click(function () {
                 $(this).nextUntil('.saleTr').toggleClass('hide');
@@ -65,7 +71,9 @@ define(["require", "exports", "./services", "./index"], function (require, expor
         populateEdificiNames() {
             services_1.getAllEdifici().then(edificiResponse => {
                 $.each(edificiResponse, (key, item) => {
-                    $('#selectEdificio').append(`<option name = "${item.Nome}" value = "${item.ID_Edificio}"> ${item.Nome}</option>`);
+                    if (item.Stato === "Disponibile") {
+                        $('#selectEdificio').append(`<option name = "${item.Nome}" value = "${item.ID_Edificio}"> ${item.Nome}</option>`);
+                    }
                 });
             });
         }

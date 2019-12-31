@@ -18,7 +18,7 @@ define(["require", "exports", "./services", "./prenotazioni", "./risorse", "./ed
         }
     }
     exports.ViewIndex = ViewIndex;
-    ViewIndex.regex = /^[a-zA-Z0-9]+$/;
+    ViewIndex.regex = /^[a-zA-Z0-9 ]+$/;
     let viewIndex = new ViewIndex();
     let viewPrenotazioni = new prenotazioni_1.ViewPrenotazioni();
     let viewRisorse = new risorse_1.ViewRisorse();

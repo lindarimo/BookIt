@@ -6,7 +6,7 @@ import { ViewEdifici } from "./edifici";
 import { ViewSale } from "./sale";
 
 export class ViewIndex {
-    public static regex : RegExp = /^[a-zA-Z0-9]+$/;
+    public static regex : RegExp = /^[a-zA-Z0-9 ]+$/;
 
     public constructor() {
         $(document).ready(() => {

@@ -23,8 +23,14 @@ export class ViewSale {
             let edificio = $("#selectEdificio").val()?.toString().trim();
             let nomeSala = $("#nomeSala").val()?.toString().trim();
             let postiSala = $("#postiSala").val();
+            let sala = {
+                ID_Edificio: $("#selectEdificio").find(":selected").val(),
+                Nome: nomeSala,
+                NumeroPostiDisponibili: postiSala,
+                Stato: $("#statoSala").val()?.toString().trim(),
+            };
             if (edificio && nomeSala && postiSala) {
-                ViewIndex.regex.test(edificio) && ViewIndex.regex.test(nomeSala) ? creaSala() : alert("Non puoi inserire caratteri speciali.");       
+                ViewIndex.regex.test(edificio) && ViewIndex.regex.test(nomeSala) ? creaSala(sala) : alert("Non puoi inserire caratteri speciali.");
             } else {
                 alert("Compila tutti i campi!");
                 event.stopPropagation();
@@ -53,7 +59,7 @@ export class ViewSale {
         console.log(sale);
         $.each(sale, (key, sala: Sala) => {
             $(".saleTbody").append('<tr class= "saleTr"><td class="nomeSala">' + sala.Nome + '</td><td class="nomeEdificio">' + sala.NomeEdificio + '</td><td class="stato">' + sala.Stato + '</td></tr>');
-            $(".saleTbody").append('<tr><td class="numeroPostiDisponibili"><h6> Numero posti disponibili: </h6>' + sala.NumeroPostiDisponibili + '</td><td></td><td></td></tr>')
+            $(".saleTbody").append('<tr><td class="numeroPostiDisponibili" colspan="3"><h6> Numero posti disponibili: </h6>' + sala.NumeroPostiDisponibili + '</td></tr>')
         });
         $('.saleTr').click(function () {
             $(this).nextUntil('.saleTr').toggleClass('hide');
@@ -63,7 +69,9 @@ export class ViewSale {
     public populateEdificiNames() {
         getAllEdifici().then(edificiResponse => {
             $.each(edificiResponse, (key, item: Edificio) => {
-                $('#selectEdificio').append(`<option name = "${item.Nome}" value = "${item.ID_Edificio}"> ${item.Nome}</option>`)
+                if (item.Stato === "Disponibile") {
+                    $('#selectEdificio').append(`<option name = "${item.Nome}" value = "${item.ID_Edificio}"> ${item.Nome}</option>`);
+                }
             });
         });
     };

@@ -1,4 +1,5 @@
 ﻿using log4net;
+using log4net.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,18 @@ namespace BookIt.Common
 {
     public class LogManager
     {
+
+        public LogManager()
+        {
+            BasicConfigurator.Configure();
+        }
+
         private static readonly ILog log = log4net.LogManager.GetLogger("BookIt");
 
         public static void Error(Exception ex)
         {
             log.Error(ex.Message, ex);
+            System.Diagnostics.Debug.WriteLine($"{ex.Message}");
         }
 
         public static void Error(string message)

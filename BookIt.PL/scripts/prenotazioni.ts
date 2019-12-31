@@ -47,7 +47,9 @@ export class ViewPrenotazioni {
             let a = $("#selectEdificio").val()?.toString() || '';
             getAllSaleByEdificio(parseInt(a)).then(saleResponse => {
                 $.each(saleResponse, (key, item: Sala) => {
-                    $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
+                    if (item.Stato === "Prenotabile") {
+                        $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
+                    }
                 });
             });
         });
@@ -106,11 +108,9 @@ export class ViewPrenotazioni {
         let prenotazioniFiltrateSala: Prenotazione[] = [];
         let prenotazioniFiltrateUsername: Prenotazione[] = [];
         let inputReg = new RegExp(inputText, "i"); //i = ignorecase
-        //prenotazioniFiltrate = prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
         prenotazioniFiltrateSala = this.prenotazioni.filter(p => inputReg.test(p.NomeSala));
         prenotazioniFiltrateUsername = this.prenotazioni.filter(p => inputReg.test(p.UsernameRisorsa));
-        prenotazioniFiltrate = prenotazioniFiltrateSala.concat(prenotazioniFiltrateUsername);
-        this.populatePrenotazioni(prenotazioniFiltrate);
+        this.populatePrenotazioni([...new Set([...prenotazioniFiltrateSala, ...prenotazioniFiltrateUsername])]);
     };
     /**
      * populatePrenotazioni
@@ -120,7 +120,7 @@ export class ViewPrenotazioni {
 
         $.each(prenotazioni, (key, prenotazione: Prenotazione) => {
             $(".prenotazioniTbody").append('<tr class= "prenotazioniTr"><td class="nomeSala">' + prenotazione.NomeSala + '</td><td class="dataInizio">' + moment(prenotazione.DataInizioPrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataInizioPrenotazione).format("HH:mm") + ' </td><td class="dataFine">' + moment(prenotazione.DataFinePrenotazione).format("DD/MM/YYYY") + ' dalle: ' + moment(prenotazione.DataFinePrenotazione).format("HH:mm") + '</td></tr>');
-            $(".prenotazioniTbody").append('<tr class = "dettagliPrenotazioni"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
+            $(".prenotazioniTbody").append('<tr class = "dettagliTable"><td><span class = "redText">Dettagli della prenotazione: </span><br><b>Cognome: </b>' + prenotazione.CognomeRisorsa + '<br><b>Nome: </b>' + prenotazione.NomeRisorsa + '<br><b>Username: </b>' + prenotazione.UsernameRisorsa + '</td><td colspan="2"><br><b>Email: </b>' + prenotazione.EmailRisorsa + '<br><b>Descrizione: </b>' + prenotazione.Descrizione + '<br><hr><button type="button" class="btn btn-danger eliminaPrenotazione" id="' + prenotazione.ID_Prenotazione + '">Elimina</button></td></tr>');
         })
         $('.prenotazioniTr').click(function () {
             $(this).nextUntil('.prenotazioniTr').toggleClass('hide');
