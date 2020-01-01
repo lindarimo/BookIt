@@ -58,16 +58,6 @@ namespace BookIt.DAL.Repository
             return DbSet.Where<TEntity>(where).First();
         }
 
-        public int Count()
-        {
-            return DbSet.Count();
-        }
-
-        public int Max(Func<TEntity, int> where)
-        {
-            return DbSet.Max<TEntity>(where);
-        }
-
         public void Delete(TEntity entity)
         {
             if (Context.Entry(entity).State == System.Data.Entity.EntityState.Detached)
@@ -76,19 +66,6 @@ namespace BookIt.DAL.Repository
             }
             DbSet.Remove(entity);
         }
-
-        public void DeleteAll(List<TEntity> listToDelete)
-        {
-            foreach (TEntity ent in listToDelete)
-            {
-                if (Context.Entry(ent).State == System.Data.Entity.EntityState.Detached)
-                {
-                    DbSet.Attach(ent);
-                }
-                DbSet.Remove(ent);
-            }
-        }
-
         public virtual void Add(TEntity entity)
         {
             DbSet.Add(entity);
@@ -98,11 +75,6 @@ namespace BookIt.DAL.Repository
         {
             DbSet.Attach(entity);
             Context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-        }
-
-        public TEntity SingleWithNavProp(Expression<Func<TEntity, bool>> where, string propToLoad)
-        {
-            return DbSet.Where<TEntity>(where).Include(propToLoad).SingleOrDefault();
         }
     }
 }

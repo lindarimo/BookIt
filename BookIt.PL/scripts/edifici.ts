@@ -1,12 +1,13 @@
-import { getAllEdifici, creaEdificio, getAllSaleByEdificio } from "./services";
 import { Edificio, Sala } from "./model";
 import { ViewIndex } from "./index";
+import { Services } from "./services";
 export class ViewEdifici {
     public edifici: Edificio[] = [];
     public constructor() {
         $(document).ready(() => {
             this.searchEdifici();
         });
+        // Gestisco il click del bottone per creare una nuova risorsa
         $("#creaEdificio").click(function (event) {
             event.preventDefault();
             let nomeEdificio = $("#nomeEdificio").val()?.toString().trim();
@@ -18,7 +19,8 @@ export class ViewEdifici {
                 Stato: disponibilitaEdificio,
             }
             if (nomeEdificio && indirizzioEdificio && disponibilitaEdificio) {
-                ViewIndex.regex.test(nomeEdificio) && ViewIndex.regex.test(indirizzioEdificio) ? creaEdificio(edificio) : alert("Non puoi inserire caratteri speciali.");
+                // Controllo se sono stati inseriti caratteri speciali
+                ViewIndex.regex.test(nomeEdificio) && ViewIndex.regex.test(indirizzioEdificio) ? Services.createBuilding(edificio) : alert("Non puoi inserire caratteri speciali.");
             } else {
                 alert("Compila tutti i campi!");
                 event.stopPropagation();
@@ -26,14 +28,14 @@ export class ViewEdifici {
         });
     }
     /**
-     * searchEdifici
+     * Metodo che prende tutte le sale per ogni edificio
      */
     public searchEdifici() {
         let saleArray: Sala[];
         let allSaleProm: any;
-        getAllEdifici().then(edificiResponse => {
+        Services.getAllBuildings().then(edificiResponse => {
             $.each(edificiResponse, (key, edificio: Edificio) => {
-                allSaleProm = getAllSaleByEdificio(edificio.ID_Edificio).then(e => {
+                allSaleProm = Services.getAllRoomsByBuilding(edificio.ID_Edificio).then(e => {
                     saleArray = e.filter(r => r.ID_Edificio === edificio.ID_Edificio);
                     edificio.Sale = saleArray;
                 });
@@ -42,11 +44,14 @@ export class ViewEdifici {
                 edificiResponse.forEach(edificio => {
                     this.edifici.push(edificio);
                 });
+                // Stampo a video la lista di edifici
                 this.populateEdifici(this.edifici);
             });
         });
     };
-
+    /**
+     * Metodo che stampa a video la lista di edifici con le rispettive sale
+     */
     public populateEdifici(edifici: Edificio[]) {
         $.each(edifici, (key, edificio: Edificio) => {
             $(".edificiTbody").append('<tr class= "edificiTr"><td class="nomeEdificio">' + edificio.Nome + '</td><td class="indirizzo">' + edificio.Indirizzo + '</td><td class="stato">' + edificio.Stato + '</td></tr>');

@@ -1,31 +1,41 @@
-import { getAllPrenotazioni, getRisorsa, getAllRisorse, getAllUsersCanBook, getSala, getAllSale, getAllSaleByEdificio, doPrenotazione, deletePrenotazione } from "./services";
 import { Prenotazione, Risorsa, Sala } from "./model";
 import * as moment from "moment";
 import { ViewIndex } from "./index";
+import { Services } from "./services";
 
 export class ViewPrenotazioni {
     public prenotazioni: Prenotazione[] = [];
     public constructor() {
         $(document).ready(() => {
-            console.log("loaded");
             let inputText = <string>$('input[type="text"]').val();
             this.searchPrenotazioni();
             this.populateUsernames();
             this.prenotazioneModal();
+            // Setto la data attuale come valore minimo dell'input datetime
+            $('#bookDateStart').attr({ min: moment().format("YYYY-MM-DD") + "T00:00" });
+            // Keyup sull'input per la ricerca di prenotazioni
             $("#myInput").keyup(() => {
                 inputText = <string>$('input[type="text"]').val();
                 this.filterPrenotazioni(inputText);
             });
-
         });
+        // Gestisco il click per creare una nuova prenotazione
         $("#creaPrenotazione").click(function (event) {
             event.preventDefault();
             let descrizione = $("#descrizione").val()?.toString().trim();
             let selectUsername = $("#selectUsername").val();
             let selectEdificio = $("#selectEdificio").val();
             let selectSala = $("#selectSala").val();
+            let prenotazione = {
+                ID_Risorsa: selectUsername,
+                ID_Sala: selectSala,
+                Descrizione: "fdfd",
+                DataInizioPrenotazione: $('#bookDateStart').val(),
+                DataFinePrenotazione: $('#bookDateEnd').val()
+            };
+            // Controllo se sono stati inseriti caratteri speciali negli input
             if (descrizione && selectUsername && selectEdificio && selectSala) {
-                ViewIndex.regex.test(descrizione) ? doPrenotazione() : alert("Non puoi inserire caratteri speciali.");
+                ViewIndex.regex.test(descrizione) ? Services.createReservation(prenotazione) : alert("Non puoi inserire caratteri speciali.");
             } else {
                 alert("Compila tutti i campi!");
                 event.stopPropagation();
@@ -34,31 +44,35 @@ export class ViewPrenotazioni {
 
     };
     /**
-     * prenotazioneModal
+     * Metodo che gestisce il popolamento delle risorse, edifici, sale nella modale
      */
     public prenotazioneModal() {
         $("#selectUsername").on("change", function () {
             $(".selectDefault").prop('disabled', true);
         });
+        // Al cambio della selezione di un edifici nella select, abilito la select delle sale e popolo le option in base a quale edificio è
+        // stato selezionato
         $("#selectEdificio").on("change", function () {
             $('.salaItem').remove();
             $("#selectSala").removeAttr('disabled');
             $(".selectDefault").prop('disabled', true);
             let a = $("#selectEdificio").val()?.toString() || '';
-            getAllSaleByEdificio(parseInt(a)).then(saleResponse => {
+            Services.getAllRoomsByBuilding(parseInt(a)).then(saleResponse => {
                 $.each(saleResponse, (key, item: Sala) => {
+                    // Visualizzo solo le sale che hanno stato = prenotabile
                     if (item.Stato === "Prenotabile") {
                         $('#selectSala').append(`<option class = "salaItem" name = "${item.Nome}" value = "${item.ID_Sala}"> ${item.Nome}</option>`);
                     }
                 });
             });
         });
+        // Quando viene selezionata la data di inizio di una prenotazione, abilito il datetime per inserire la datafine e imposto il minimo
         $("#bookDateStart").on("change", function () {
             let initDate: any = $("#bookDateStart").val();
-            console.log(initDate);
             $("#bookDateEnd").removeAttr('disabled');
             $("#bookDateEnd").attr("min", initDate);
         })
+        // Quando viene cliccato al di fuori del datetime, controllo che la datafine sia maggiore della datainizio
         $("#bookDateEnd").focusout(function () {
             let initDate = $("#bookDateStart").val();
             let endDate = $("#bookDateEnd").val();
@@ -67,22 +81,21 @@ export class ViewPrenotazioni {
                 $("#bookDateEnd").val("");
             }
         });
-
-    }
+    };
 
     /**
-     * searchPrenotazioni
+     * Metodo che popola un oggetto di tutte le prenotazioni con le rispettive risorse e sale
      */
     public searchPrenotazioni() {
-        getAllPrenotazioni().then(prenotazioniResponse => {
-            let allSaleProm = getAllSale().then(sale => {
+        Services.getAllReservations().then(prenotazioniResponse => {
+            let allSaleProm = Services.getAllRooms().then(sale => {
                 prenotazioniResponse.forEach(p => {
                     let salaTmp = sale.find(s => s.ID_Sala === p.ID_Sala);
                     p.NomeSala = salaTmp ? salaTmp.Nome : "Not found";
                     console.log("Nome sala" + p.NomeSala);
                 });
             });
-            let allRisorseProm = getAllRisorse().then(risorse => {
+            let allRisorseProm = Services.getAllUsers().then(risorse => {
                 prenotazioniResponse.forEach(p => {
                     let risorsaTmp = risorse.find(r => r.ID === p.ID_Risorsa);
                     p.UsernameRisorsa = risorsaTmp ? risorsaTmp.Username : "Not found";
@@ -100,11 +113,11 @@ export class ViewPrenotazioni {
         });
     };
     /**
-     * filterPrenotazioni
+     * Metodo che gestisce la ricerca di prenotazioni. In base all'input presente nella searchbar, popola un array di prenotazioni con tutte quelle prenotazioni che abbiano
+     * all'interno del nome sala o dello username risorsa quella stringa
      */
     public filterPrenotazioni(inputText: string) {
         //al keyup filtra e mostra solo un sottinsieme delle prenotazioni
-        let prenotazioniFiltrate: Prenotazione[] = [];
         let prenotazioniFiltrateSala: Prenotazione[] = [];
         let prenotazioniFiltrateUsername: Prenotazione[] = [];
         let inputReg = new RegExp(inputText, "i"); //i = ignorecase
@@ -113,7 +126,7 @@ export class ViewPrenotazioni {
         this.populatePrenotazioni([...new Set([...prenotazioniFiltrateSala, ...prenotazioniFiltrateUsername])]);
     };
     /**
-     * populatePrenotazioni
+     * Metodo che stampa a video la tabella con tutte le prenotazioni
      */
     public populatePrenotazioni(prenotazioni: Prenotazione[]) {
         $(".prenotazioniTbody").empty();
@@ -127,12 +140,14 @@ export class ViewPrenotazioni {
         }).click();
         $(".eliminaPrenotazione").click(function () {
             if (confirm('Stai per eliminare una prenotazione. Vuoi procedere?')) {
-                deletePrenotazione(parseInt(this.id));
+                Services.deleteReservation(parseInt(this.id));
             }
         });
     };
+
+    // Stampo tutti gli utenti che possono prenotare una sala all'interno della select nella modal
     public populateUsernames() {
-        getAllUsersCanBook().then(usersResponse => {
+        Services.getAllUsersCanBook().then(usersResponse => {
             $.each(usersResponse, (key, item: Risorsa) => {
                 $('#selectUsername').append(`<option name = "${item.Username}" value = "${item.ID}"> ${item.Username}</option>`)
             });

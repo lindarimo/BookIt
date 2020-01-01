@@ -10,19 +10,13 @@ namespace BookIt.BL.Manager
 {
     public class PrenotazioneManager
     {
-        /// <summary>
-        /// Returns a list of User entities.
-        /// </summary>
-        /// <returns>A list of User entities</returns>
         public IEnumerable<Prenotazione> GetAllPrenotazioni()
         {
             DAL.Repository.PrenotazioneRepository PrenotazioneRepository = new DAL.Repository.PrenotazioneRepository();
-            DAL.Repository.PrenotazioneRepository repo = null;
-            IEnumerable<Prenotazione> result = null;
-
+            IEnumerable<Prenotazione> result;
             try
             {
-                repo = new DAL.Repository.PrenotazioneRepository();
+                DAL.Repository.PrenotazioneRepository repo = new DAL.Repository.PrenotazioneRepository();
                 result = repo.GetAll();
             }
             catch (Exception ex)
@@ -33,20 +27,12 @@ namespace BookIt.BL.Manager
 
             return result;
         }
-
-        /// <summary>
-        /// Returns the User entity with the given identifier.
-        /// </summary>
-        /// <param name="id">The User identifier</param>
-        /// <returns>The User entity</returns>
         public Prenotazione GetPrenotazioneById(int id)
         {
-            DAL.Repository.PrenotazioneRepository repo = null;
-            Prenotazione result = null;
-
+            Prenotazione result;
             try
             {
-                repo = new DAL.Repository.PrenotazioneRepository();
+                DAL.Repository.PrenotazioneRepository repo = new DAL.Repository.PrenotazioneRepository();
                 result = repo.GetById(id);
             }
             catch (Exception ex)
@@ -54,14 +40,8 @@ namespace BookIt.BL.Manager
                 LogManager.Error(ex);
                 throw ex;
             }
-
             return result;
         }
-
-        /// <summary>
-        /// Creates the given User.
-        /// </summary>
-        /// <param name="user">The User entity to create</param>
         public bool CreatePrenotazione(Prenotazione prenotazione)
         {
             DAL.Repository.PrenotazioneRepository repo = null;
@@ -71,6 +51,8 @@ namespace BookIt.BL.Manager
             try
             {
                 repo = new DAL.Repository.PrenotazioneRepository();
+                // Controllo se le date inserite dall'utente sono compatibili con la prenotazione. Non è possibile inserire una prenotazione che si 
+                // sovrapponga con le date di un'altra prenotazione per la stessa sala.
                 count = repo.Find(x => x.ID_Sala == prenotazione.ID_Sala &&
                                     ((prenotazione.DataInizioPrenotazione >= x.DataInizioPrenotazione && prenotazione.DataInizioPrenotazione <= x.DataFinePrenotazione) ||
                                     (prenotazione.DataFinePrenotazione >= x.DataInizioPrenotazione && prenotazione.DataFinePrenotazione <= x.DataFinePrenotazione))).Count();
@@ -89,35 +71,6 @@ namespace BookIt.BL.Manager
             }
             return false;
         }
-
-        /// <summary>
-        /// Updates the given User.
-        /// </summary>
-        /// <param name="id">User identifier</param>
-        /// <param name="user">User entity to update</param>
-        /*public void UpdateUser(int id, Risorsa risorsa)
-        {
-            DAL.Repository.RisorsaRepository repo = null;
-
-            try
-            {
-                repo = new DAL.Repository.RisorsaRepository();
-                Risorsa actual = repo.GetById(id);
-                actual.Nome = risorsa.Nome;
-                repo.Update(actual);
-                DAL.GlobalUnitOfWork.Commit();
-            }
-            catch (Exception ex)
-            {
-                ///LogManager.Error(ex);
-                throw ex;
-            }
-        }*/
-
-        /// <summary>
-        /// Deletes the User with the given identifier.
-        /// </summary>
-        /// <param name="id">The User identifier</param>
         public void DeletePrenotazione(int id)
         {
             DAL.Repository.PrenotazioneRepository repo = null;

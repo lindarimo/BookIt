@@ -1,126 +1,147 @@
 import { Risorsa, Edificio, Sala, Prenotazione } from "./model";
-import { ViewRisorse } from "./risorse";
-//import { populateUsernames, populateEdifici, populateSale } from "./index";
+export class Services {
+    public static webApiUri: string = 'http://localhost:60398/api';
 
-//#region Variables
-const webApiUri: string = 'http://localhost:60398/api';
-//#endregion
-
-export function getAllUsersCanBook(): JQuery.jqXHR<Risorsa[]> {
-    return $.getJSON(webApiUri + '/User/GetAllUsersCanBook')
-}
-export function getAllRisorse(): JQuery.jqXHR<Risorsa[]> {
-    return $.getJSON(webApiUri + '/User/GetAllUsers');
-}
-
-export function getAllSaleByEdificio(id: any): JQuery.jqXHR<Sala[]> {
-    return $.getJSON(webApiUri + '/Sala/GetAllSaleByEdificio/' + id);
-}
-
-export function getAllEdifici(): JQuery.jqXHR<Edificio[]> {
-    return $.getJSON(webApiUri + '/Edificio/GetAllEdifici')
-}
-export function getAllSale(): JQuery.jqXHR<Sala[]> {
-    return $.getJSON(webApiUri + '/Sala/GetAllSale');
-}
-
-export function getAllPrenotazioni(): JQuery.jqXHR<Prenotazione[]> {
-    return $.getJSON(webApiUri + '/Prenotazione/GetAllPrenotazioni');
-}
-export function creaRisorsa(): void {
-    let p = {
-        Cognome: $("#cognome").val(),
-        Nome: $("#nome").val(),
+    /**
+     * getAllUsersCanBook
+     */
+    public static getAllUsersCanBook(): JQuery.jqXHR<Risorsa[]> {
+        return $.getJSON(this.webApiUri + '/User/GetAllUsersCanBook')
     };
 
-    $.ajax({
-        type: "POST",
-        url: webApiUri + '/User/PostUser',
-        contentType: 'application/json',
-        data: JSON.stringify(p),
-    }).done(function (data) {
-        alert("Hai inserito correttamente la nuova risorsa " + p.Nome + " " + p.Cognome);
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    });
-}
-export function creaEdificio(edificio: any): void {
-    $.ajax({
-        type: "POST",
-        url: webApiUri + '/Edificio/PostEdificio',
-        contentType: 'application/json',
-        data: JSON.stringify(edificio),
-    }).done(function (data) {
-        alert("Hai inserito correttamente il nuovo edificio " + data.Nome);
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    });
-}
-export function aggiornaRisorsa(id: number): void {
-    $.ajax({
-        type: "PUT",
-        url: webApiUri + '/User/UpdateUserFlag?id=' + id,
-        contentType: 'application/json',
-    }).done(function () {
-        alert("Hai abilitato l'utente alla prenotazione!");
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    });
-}
-export function getSala(id: number): JQuery.jqXHR<Sala> {
-    return $.getJSON(webApiUri + '/Sala/GetSala/?id=' + id);
-}
-
-export function getRisorsa(id: number): JQuery.jqXHR<Risorsa> {
-    return $.getJSON(webApiUri + '/User/GetUser/?id=' + id);
-}
-
-export function deletePrenotazione(id: number): void {
-    $.ajax({
-        type: "DELETE",
-        url: webApiUri + '/Prenotazione/DeletePrenotazione/?id=' + id,
-        contentType: 'application/json',
-    }).done(function (data) {
-        console.log(JSON.stringify(data));
-        alert("Hai eliminato la prenotazione!");
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    });
-}
-export function creaSala(sala: any): void {
-    $.ajax({
-        type: "POST",
-        url: webApiUri + '/Sala/PostSala',
-        contentType: 'application/json',
-        data: JSON.stringify(sala),
-    }).done(function (data) {
-        alert("Sala inserita correttamente!");
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    });
-}
-export function doPrenotazione() {
-    let p = {
-        ID_Risorsa: 2,
-        ID_Sala: 1,
-        Descrizione: "fdfd",
-        DataInizioPrenotazione: "2019-12-03 00:38",
-        DataFinePrenotazione: "2019-12-04 00:38"
+    /**
+    * getAllUsers
+    */
+    public static getAllUsers(): JQuery.jqXHR<Risorsa[]> {
+        return $.getJSON(this.webApiUri + '/User/GetAllUsers');
     };
-    $.ajax({
-        type: "POST",
-        url: webApiUri + '/Prenotazione/PostPrenotazione',
-        contentType: 'application/json',
-        data: JSON.stringify(p)
-    }).done(function (data) {
-        data !== null ? alert("Prenotazione inserita correttamente!") : alert("Impossibile inserire la prenotazione. Data e ora non disponibili per la sala selezionata. Riprova con altri parametri.");
-        location.reload();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("An error occurred while creating UserTitle");
-    })
+    
+    /**
+    * updateUser
+    */
+    public static updateUser(id: number): void {
+        $.ajax({
+            type: "PUT",
+            url: this.webApiUri + '/User/UpdateUserFlag?id=' + id,
+            contentType: 'application/json',
+        }).done(function () {
+            alert("Hai abilitato l'utente alla prenotazione!");
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    };
+
+    /**
+    * createUser
+    */
+    public static createUser(risorsa: any): void {
+        $.ajax({
+            type: "POST",
+            url: this.webApiUri + '/User/PostUser',
+            contentType: 'application/json',
+            data: JSON.stringify(risorsa),
+        }).done(function (data) {
+            alert("Hai inserito correttamente la nuova risorsa " + data.Nome + " " + data.Cognome);
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    };
+
+    /**
+    * getAllRooms
+    */
+    public static getAllRooms(): JQuery.jqXHR<Sala[]> {
+        return $.getJSON(this.webApiUri + '/Sala/GetAllSale');
+    };
+
+    /**
+    * createRoom
+    */
+    public static createRoom(sala: any): void {
+        $.ajax({
+            type: "POST",
+            url: this.webApiUri + '/Sala/PostSala',
+            contentType: 'application/json',
+            data: JSON.stringify(sala),
+        }).done(function (data) {
+            alert("Sala inserita correttamente!");
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    };
+
+    /**
+    * getAllRoomsByBuilding
+    */
+    public static getAllRoomsByBuilding(id: any): JQuery.jqXHR<Sala[]> {
+        return $.getJSON(this.webApiUri + '/Sala/GetAllSaleByEdificio/' + id);
+    };
+
+    /**
+    * getAllBuildings
+    */
+    public static getAllBuildings(): JQuery.jqXHR<Edificio[]> {
+        return $.getJSON(this.webApiUri + '/Edificio/GetAllEdifici')
+    };
+
+    /**
+    * createBuilding
+    */
+    public static createBuilding(edificio: any): void {
+        $.ajax({
+            type: "POST",
+            url: this.webApiUri + '/Edificio/PostEdificio',
+            contentType: 'application/json',
+            data: JSON.stringify(edificio),
+        }).done(function (data) {
+            alert("Hai inserito correttamente il nuovo edificio " + data.Nome);
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    };
+
+    /**
+    * getAllReservations
+    */
+    public static getAllReservations(): JQuery.jqXHR<Prenotazione[]> {
+        return $.getJSON(this.webApiUri + '/Prenotazione/GetAllPrenotazioni');
+    };
+
+    /**
+    * deleteReservation
+    */
+    public static deleteReservation(id: number): void {
+        $.ajax({
+            type: "DELETE",
+            url: this.webApiUri + '/Prenotazione/DeletePrenotazione/?id=' + id,
+            contentType: 'application/json',
+        }).done(function (data) {
+            console.log(JSON.stringify(data));
+            alert("Hai eliminato la prenotazione!");
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        });
+    };
+
+    /**
+    * createReservation
+    */
+    public static createReservation(prenotazione: any) {
+        $.ajax({
+            type: "POST",
+            url: this.webApiUri + '/Prenotazione/PostPrenotazione',
+            contentType: 'application/json',
+            data: JSON.stringify(prenotazione)
+        }).done(function (data) {
+            data !== null ? alert("Prenotazione inserita correttamente!") : alert("Impossibile inserire la prenotazione. Data e ora non disponibili per la sala selezionata. Riprova con altri parametri.");
+            location.reload();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("An error occurred while creating UserTitle");
+        })
+    };
 }

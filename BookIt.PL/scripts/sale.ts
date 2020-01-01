@@ -1,6 +1,6 @@
-import { getAllSale, getAllEdifici, creaSala } from "./services";
 import { Sala, Edificio } from "./model";
 import { ViewIndex } from "./index";
+import { Services } from "./services";
 
 export class ViewSale {
     public sale: Sala[] = [];
@@ -13,6 +13,7 @@ export class ViewSale {
         $("#selectEdificio").on("change", function () {
             $('.salaItem').remove();
             $("#selectSala").removeAttr('disabled');
+            // disabilito il default della dropdown
             $(".selectDefault").prop('disabled', true);
         });
         $("#selectEdificio").on("change", function () {
@@ -30,7 +31,7 @@ export class ViewSale {
                 Stato: $("#statoSala").val()?.toString().trim(),
             };
             if (edificio && nomeSala && postiSala) {
-                ViewIndex.regex.test(edificio) && ViewIndex.regex.test(nomeSala) ? creaSala(sala) : alert("Non puoi inserire caratteri speciali.");
+                ViewIndex.regex.test(edificio) && ViewIndex.regex.test(nomeSala) ? Services.createRoom(sala) : alert("Non puoi inserire caratteri speciali.");
             } else {
                 alert("Compila tutti i campi!");
                 event.stopPropagation();
@@ -39,8 +40,9 @@ export class ViewSale {
     };
 
     public searchSale() {
-        getAllSale().then(saleResponse => {
-            let allEdificiProm = getAllEdifici().then(edifici => {
+        // Recupero tutte le sale con i rispettivi edifici
+        Services.getAllRooms().then(saleResponse => {
+            let allEdificiProm = Services.getAllBuildings().then(edifici => {
                 saleResponse.forEach(s => {
                     let edificioTmp = edifici.find(e => e.ID_Edificio === s.ID_Edificio);
                     s.NomeEdificio = edificioTmp ? edificioTmp.Nome : "Not found";
@@ -55,8 +57,8 @@ export class ViewSale {
             });
         });
     };
+    // stampo a video la tabella con tutte le sale e i relativi dettagli
     public populateSale(sale: Sala[]) {
-        console.log(sale);
         $.each(sale, (key, sala: Sala) => {
             $(".saleTbody").append('<tr class= "saleTr"><td class="nomeSala">' + sala.Nome + '</td><td class="nomeEdificio">' + sala.NomeEdificio + '</td><td class="stato">' + sala.Stato + '</td></tr>');
             $(".saleTbody").append('<tr><td class="numeroPostiDisponibili" colspan="3"><h6> Numero posti disponibili: </h6>' + sala.NumeroPostiDisponibili + '</td></tr>')
@@ -65,9 +67,9 @@ export class ViewSale {
             $(this).nextUntil('.saleTr').toggleClass('hide');
         }).click();
     };
-
+    // gestisco il popolamento della dropdown con tutti gli edifici che abbiano stato disponibile
     public populateEdificiNames() {
-        getAllEdifici().then(edificiResponse => {
+        Services.getAllBuildings().then(edificiResponse => {
             $.each(edificiResponse, (key, item: Edificio) => {
                 if (item.Stato === "Disponibile") {
                     $('#selectEdificio').append(`<option name = "${item.Nome}" value = "${item.ID_Edificio}"> ${item.Nome}</option>`);

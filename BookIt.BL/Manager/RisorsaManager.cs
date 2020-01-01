@@ -11,19 +11,13 @@ namespace BookIt.BL.Manager
 {
     public class RisorsaManager
     {
-        /// <summary>
-        /// Returns a list of User entities.
-        /// </summary>
-        /// <returns>A list of User entities</returns>
         public IEnumerable<Risorsa> GetAllUsers()
         {
             RisorsaRepository RisorsaRepository = new RisorsaRepository();
-            DAL.Repository.RisorsaRepository repo = null;
-            IEnumerable<Risorsa> result = null;
-
+            IEnumerable<Risorsa> result;
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
+                RisorsaRepository repo = new RisorsaRepository();
                 result = repo.GetAll();
             }
             catch (Exception ex)
@@ -37,11 +31,12 @@ namespace BookIt.BL.Manager
         public IEnumerable<Risorsa> GetAllUsersCanBook()
         {
             RisorsaRepository RisorsaRepository = new RisorsaRepository();
-            DAL.Repository.RisorsaRepository repo = null;
+            RisorsaRepository repo = null;
             IEnumerable<Risorsa> result = null;
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
+                // Se un utente ha il flagPrenotazione uguale a true, allora è abilitato alla prenotazione di sale
+                repo = new RisorsaRepository();
                 result = repo.Find(x => x.FlagPrenotazione == true).ToArray();
             }
             catch (Exception ex)
@@ -49,15 +44,8 @@ namespace BookIt.BL.Manager
                 LogManager.Error(ex);
                 throw ex;
             }
-
             return result;
         }
-
-        /// <summary>
-        /// Returns the User entity with the given identifier.
-        /// </summary>
-        /// <param name="id">The User identifier</param>
-        /// <returns>The User entity</returns>
         public Risorsa GetUserById(int id)
         {
             DAL.Repository.RisorsaRepository repo = null;
@@ -65,7 +53,7 @@ namespace BookIt.BL.Manager
 
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
+                repo = new RisorsaRepository();
                 result = repo.GetById(id);
             }
             catch (Exception ex)
@@ -77,27 +65,24 @@ namespace BookIt.BL.Manager
             return result;
         }
 
-        /// <summary>
-        /// Creates the given User.
-        /// </summary>
-        /// <param name="user">The User entity to create</param>
         public void CreateUser(Risorsa user)
         {
-            DAL.Repository.RisorsaRepository repo = null;
+            RisorsaRepository repo = null;
             Risorsa result = null;
             int count;
             int countEmail;
 
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
+                repo = new RisorsaRepository();
 
-                //Creazione username
+                //Creazione username. Prendo i primi 5 caratteri del cognome, i primi 2 caratteri del nome.
                 string usernameString = $"{user.Cognome.Substring(0, 5)}{user.Nome.Substring(0, 2)}".ToLower();
+                //Cerco se esistono già username uguali nel database
                 count = repo.Find(x => x.Username.Substring(0, 7) == usernameString).Count();
                 user.Username = $"{usernameString}{++count}";
 
-                //Creazione email
+                //Creazione email. Creo una stringa formata da nome.cognome@reti.it
                 string emailString = $"{user.Nome}.{user.Cognome}@reti.it".ToLower();
                 countEmail = repo.Find(x => x.Email == emailString).Count();
                 if (countEmail == 0)
@@ -112,7 +97,7 @@ namespace BookIt.BL.Manager
                 //id
                 user.ID = 1;
 
-                //flagPrenotazione
+                //flagPrenotazione sempre a false
                 user.FlagPrenotazione = false;
 
                 result = repo.Add(user);
@@ -125,44 +110,16 @@ namespace BookIt.BL.Manager
             }
         }
 
-        /// <summary>
-        /// Updates the given User.
-        /// </summary>
-        /// <param name="id">User identifier</param>
-        /// <param name="user">User entity to update</param>
         public void UpdateUser(int id)
         {
-            DAL.Repository.RisorsaRepository repo = null;
-
             try
             {
-                repo = new DAL.Repository.RisorsaRepository();
+                RisorsaRepository repo = new RisorsaRepository();
                 Risorsa actual = repo.GetById(id);
+                // imposto il flagPrenotazione a true
                 actual.FlagPrenotazione = true;
                 repo.Update(actual);
-                DAL.GlobalUnitOfWork.Commit();
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Deletes the User with the given identifier.
-        /// </summary>
-        /// <param name="id">The User identifier</param>
-        public void DeleteUser(int id)
-        {
-            DAL.Repository.RisorsaRepository repo = null;
-
-            try
-            {
-                repo = new DAL.Repository.RisorsaRepository();
-                Risorsa userToDelete = this.GetUserById(id);
-                repo.Delete(userToDelete);
-                DAL.GlobalUnitOfWork.Commit();
+                GlobalUnitOfWork.Commit();
             }
             catch (Exception ex)
             {

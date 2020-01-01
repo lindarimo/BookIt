@@ -20,8 +20,6 @@ namespace BookIt.DAL.Repository
         {
             return ((BookItEntities)Context).Salas.Where(i => i.ID_Edificio == id).ToList();
         }
-
-        // Shadowed by base class
         public Sala Add(Sala item)
         {
             if (item == null)
@@ -31,11 +29,5 @@ namespace BookIt.DAL.Repository
             ((BookItEntities)Context).Salas.Add(item);
             return item;
         }
-
-        public void Delete(Sala item)
-        {
-            ((BookItEntities)Context).Salas.Remove(item);
-        }
-
     }
 }

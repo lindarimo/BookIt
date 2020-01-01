@@ -21,7 +21,6 @@ namespace BookIt.SL.Controllers
         {
             PrenotazioneManager mng = new PrenotazioneManager();
             List<Prenotazione> prenotazioni = mng.GetAllPrenotazioni().ToList();
-            // TODO: use Mappers!
             List<PrenotazioneVM> result = new List<PrenotazioneVM>();
             for (int i = 0; i < prenotazioni.Count(); i++)
             {
@@ -30,42 +29,16 @@ namespace BookIt.SL.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("api/Prenotazione/GetPrenotazione")]
-        public IHttpActionResult GetPrenotazione(int id)
-        {
-            PrenotazioneManager mng = new PrenotazioneManager();
-            Prenotazione prenotazione = mng.GetPrenotazioneById(id);
-            if (prenotazione == null)
-            {
-                return NotFound();
-            }
-            // TODO: use Mappers!
-            return Ok(new PrenotazioneVM() { ID_Prenotazione = prenotazione.ID_Prenotazione, ID_Risorsa = prenotazione.ID_Risorsa, ID_Sala = prenotazione.ID_Sala, Descrizione = prenotazione.Descrizione, DataInizioPrenotazione = prenotazione.DataInizioPrenotazione, DataFinePrenotazione = prenotazione.DataFinePrenotazione });
-        }
-
         [HttpPost]
         [Route("api/Prenotazione/PostPrenotazione")]
         public IHttpActionResult PostPrenotazione(PrenotazioneVM prenotazione)
         {
             PrenotazioneManager mng = new PrenotazioneManager();
-            // TODO: use Mappers!
             Prenotazione nuovaPrenotazione = new Prenotazione() { ID_Prenotazione = prenotazione.ID_Prenotazione, ID_Risorsa = prenotazione.ID_Risorsa, ID_Sala = prenotazione.ID_Sala, Descrizione = prenotazione.Descrizione, DataInizioPrenotazione = prenotazione.DataInizioPrenotazione, DataFinePrenotazione = prenotazione.DataFinePrenotazione };
             var result = mng.CreatePrenotazione(nuovaPrenotazione);
 
             return result ? Ok(nuovaPrenotazione) : Ok<Prenotazione>(null);
         }
-
-        /*[HttpPut]
-        public IHttpActionResult PutUser(int id, [FromBody] UserVM item)
-        {
-            UsersManager mng = new UsersManager();
-            // TODO: use Mappers!
-            User user = new User() { Id = item.Id, UserTitleId = item.UserTitleId, Username = item.Username, Surname = item.Surname, Name = item.Name };
-            mng.UpdateUser(id, user);
-
-            return Ok(id);
-        }*/
 
         [HttpDelete]
         [Route("api/Prenotazione/DeletePrenotazione")]

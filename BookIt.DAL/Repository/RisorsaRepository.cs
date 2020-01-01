@@ -17,8 +17,6 @@ namespace BookIt.DAL.Repository
         {
             return ((BookItEntities)Context).Risorsas.SingleOrDefault(i => i.ID == id);
         }
-
-        // Shadowed by base class
         public Risorsa Add(Risorsa item)
         {
             if (item == null)
@@ -27,12 +25,6 @@ namespace BookIt.DAL.Repository
             }
             ((BookItEntities)Context).Risorsas.Add(item);
             return item;
-        }
-
-        public void Delete(Risorsa item)
-        {
-            ((BookItEntities)Context).Risorsas.Remove(item);
-        }
-    
+        }    
     }
 }

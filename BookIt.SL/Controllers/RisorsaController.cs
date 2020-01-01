@@ -21,7 +21,6 @@ namespace BookIt.SL.Controllers
         {
             RisorsaManager mng = new RisorsaManager();
             List<Risorsa> risorse = mng.GetAllUsers().ToList();
-            // TODO: use Mappers!
             List<RisorsaVM> result = new List<RisorsaVM>();
             for (int i = 0; i < risorse.Count(); i++)
             {
@@ -37,7 +36,6 @@ namespace BookIt.SL.Controllers
         {
             RisorsaManager mng = new RisorsaManager();
             List<Risorsa> risorse = mng.GetAllUsersCanBook().ToList();
-            // TODO: use Mappers!
             List<RisorsaVM> result = new List<RisorsaVM>();
             for (int i = 0; i < risorse.Count(); i++)
             {
@@ -46,27 +44,12 @@ namespace BookIt.SL.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("api/User/GetUser")]
-        public IHttpActionResult GetUser(int id)
-        {
-            RisorsaManager mng = new RisorsaManager();
-            Risorsa risorsa = mng.GetUserById(id);
-            if (risorsa == null)
-            {
-                return NotFound();
-            }
-            // TODO: use Mappers!
-            return Ok(new RisorsaVM() { ID = risorsa.ID, Cognome = risorsa.Cognome, Nome = risorsa.Nome, Username = risorsa.Username, Email = risorsa.Email, FlagPrenotazione = risorsa.FlagPrenotazione });
-        }
-
         [HttpPost]
         [Route("api/User/PostUser")]
 
         public IHttpActionResult PostUser(RisorsaVM risorsa)
         {
             RisorsaManager mng = new RisorsaManager();
-            // TODO: use Mappers!
             Risorsa nuovaRisorsa = new Risorsa() { ID = risorsa.ID, Cognome = risorsa.Cognome, Nome = risorsa.Nome, Username = risorsa.Username, Email = risorsa.Email, FlagPrenotazione = risorsa.FlagPrenotazione };
             mng.CreateUser(nuovaRisorsa);
             return Ok(risorsa);
@@ -78,26 +61,8 @@ namespace BookIt.SL.Controllers
         public IHttpActionResult UpdateUserFlag([FromUri] int id)
         {
             RisorsaManager mng = new RisorsaManager();
-            // TODO: use Mappers!
-            //Risorsa risorsaAggiornata = new Risorsa();
-            
             mng.UpdateUser(id);
             return Ok();
-        }
-
-        [HttpDelete]
-        public IHttpActionResult DeleteRisorsa([FromUri] int id)
-        {
-            try
-            {
-                RisorsaManager mng = new RisorsaManager();
-                mng.DeleteUser(id);
-                return Ok(id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }

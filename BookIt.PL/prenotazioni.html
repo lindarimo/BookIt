@@ -4,21 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
     <title>BookIt</title>
-    <!-- <script>var exports = {};</script> -->
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
     <script src="./node_modules/underscore/underscore-min.js"></script>
-
     <link href="CSS/index.css" rel="stylesheet">
-
     <script data-main="scripts/app" src="scripts/require.js"></script>
 
 </head>
@@ -98,8 +93,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Data inizio prenotazione: </label>
-                                    <input id="bookDateStart" type="datetime-local" min="2019-12-01T00:00"
-                                        max="2019-12-20T00:00" step="1800" class="form-control" required />
+                                    <input id="bookDateStart" type="datetime-local" step="1800" class="form-control" required />
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Data fine prenotazione: </label>
@@ -138,7 +132,6 @@
                         <th class="otherTh">Data fine</th>
                     </tr>
                 </thead>
-                <!--number 1-->
                 <tbody class="prenotazioniTbody">
                 </tbody>
             </table>
